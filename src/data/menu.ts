@@ -1,0 +1,256 @@
+export interface MenuItem {
+  id: string;
+  name: string;
+  category: string;
+  price: string;
+  description: string;
+  shortDescription: string;
+  ingredients: string[];
+  allergens: string[];
+  image: string;
+  tags: string[];
+  chefRecommendation?: string;
+  featured?: boolean;
+}
+
+export const menuCategories = [
+  'All',
+  'Starters',
+  'Main Course',
+  'Desserts',
+  'Drinks',
+  "Chef's Specials",
+] as const;
+
+export type MenuCategory = (typeof menuCategories)[number];
+
+export const menuItems: MenuItem[] = [
+  {
+    id: 'burrata-garden',
+    name: 'Burrata & Heirloom Garden',
+    category: 'Starters',
+    price: '$18',
+    shortDescription: 'Creamy burrata with seasonal heirloom tomatoes and basil oil.',
+    description:
+      'Hand-pulled burrata resting on a canvas of heirloom tomatoes, finished with aged balsamic reduction, Sicilian olive oil, and fresh basil harvested daily from our rooftop garden.',
+    ingredients: ['Burrata', 'Heirloom tomatoes', 'Basil oil', 'Aged balsamic', 'Maldon salt'],
+    allergens: ['Dairy'],
+    image: 'https://images.unsplash.com/photo-1580638149300-65f0b9e8fbff?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    tags: ['Popular'],
+    chefRecommendation: 'Pair with our Vermentino di Sardegna.',
+    featured: true,
+  },
+  {
+    id: 'truffle-arancini',
+    name: 'Truffle Arancini',
+    category: 'Starters',
+    price: '$16',
+    shortDescription: 'Crispy saffron risotto spheres with black truffle aioli.',
+    description:
+      'Golden saffron-infused risotto balls, delicately fried until crisp, served with house-made black truffle aioli and micro herbs.',
+    ingredients: ['Arborio rice', 'Saffron', 'Black truffle', 'Parmigiano', 'Panko'],
+    allergens: ['Dairy', 'Gluten', 'Eggs'],
+    image: 'https://images.unsplash.com/photo-1633504581786-316c8002b1b9?w=800&q=80',
+    tags: ["Chef's Choice"],
+  },
+  {
+    id: 'octopus-char',
+    name: 'Charred Octopus',
+    category: 'Starters',
+    price: '$22',
+    shortDescription: 'Slow-braised octopus with smoked paprika and lemon.',
+    description:
+      'Tender octopus braised for hours, then charred over open flame. Served with fingerling potatoes, smoked paprika emulsion, and preserved lemon.',
+    ingredients: ['Octopus', 'Fingerling potatoes', 'Smoked paprika', 'Preserved lemon'],
+    allergens: ['Shellfish'],
+    image: 'https://plus.unsplash.com/premium_photo-1719530305720-6d38151dafac?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    tags: [],
+  },
+  {
+    id: 'wild-mushroom-carpaccio',
+    name: 'Wild Mushroom Carpaccio',
+    category: 'Starters',
+    price: '$15',
+    shortDescription: 'Paper-thin mushrooms with truffle vinaigrette.',
+    description:
+      'Delicate slices of foraged mushrooms dressed in white truffle vinaigrette, topped with shaved pecorino and cracked pepper.',
+    ingredients: ['Mixed wild mushrooms', 'Truffle vinaigrette', 'Pecorino', 'Arugula'],
+    allergens: ['Dairy'],
+    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80',
+    tags: [],
+  },
+  {
+    id: 'truffle-risotto',
+    name: 'Truffle Risotto',
+    category: 'Main Course',
+    price: '$34',
+    shortDescription: 'Carnaroli rice with black truffle and aged Parmigiano.',
+    description:
+      'Silky Carnaroli risotto finished tableside with shaved black truffle, 36-month Parmigiano-Reggiano, and a whisper of butter.',
+    ingredients: ['Carnaroli rice', 'Black truffle', 'Parmigiano-Reggiano', 'White wine', 'Butter'],
+    allergens: ['Dairy'],
+    image: 'https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=800&q=80',
+    tags: ["Chef's Choice", 'Popular'],
+    chefRecommendation: 'Our signature dish — order with confidence.',
+    featured: true,
+  },
+  {
+    id: 'wood-fired-margherita',
+    name: 'Wood-Fired Margherita',
+    category: 'Main Course',
+    price: '$24',
+    shortDescription: 'San Marzano tomatoes, fior di latte, fresh basil.',
+    description:
+      'Our namesake pastizza — a 72-hour fermented dough baked in our Acunto oven at 900°F, topped with DOP San Marzano, fior di latte, and basil.',
+    ingredients: ['San Marzano tomatoes', 'Fior di latte', 'Basil', 'Extra virgin olive oil'],
+    allergens: ['Dairy', 'Gluten'],
+    image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&q=80',
+    tags: ['Popular'],
+    featured: true,
+  },
+  {
+    id: 'braised-short-rib',
+    name: 'Braised Short Rib',
+    category: 'Main Course',
+    price: '$38',
+    shortDescription: '12-hour braised rib with polenta and gremolata.',
+    description:
+      'Beef short rib braised for twelve hours in Barolo wine, served over creamy polenta with bright gremolata and roasted root vegetables.',
+    ingredients: ['Beef short rib', 'Barolo wine', 'Polenta', 'Gremolata', 'Root vegetables'],
+    allergens: ['Dairy'],
+    image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=800&q=80',
+    tags: [],
+  },
+  {
+    id: 'lobster-linguine',
+    name: 'Lobster Linguine',
+    category: 'Main Course',
+    price: '$42',
+    shortDescription: 'Fresh lobster with cherry tomatoes and saffron butter.',
+    description:
+      'Half Maine lobster tossed with house-made linguine, cherry tomatoes, chili, and saffron-infused butter — a celebration of the sea.',
+    ingredients: ['Maine lobster', 'House linguine', 'Cherry tomatoes', 'Saffron butter', 'Garlic'],
+    allergens: ['Shellfish', 'Gluten', 'Dairy'],
+    image: 'https://images.unsplash.com/photo-1665109896200-716653ed827b?q=80&w=1334&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    tags: ["Chef's Choice"],
+  },
+  {
+    id: 'tiramisu-classico',
+    name: 'Tiramisu Classico',
+    category: 'Desserts',
+    price: '$14',
+    shortDescription: 'Espresso-soaked ladyfingers with mascarpone cloud.',
+    description:
+      'Our nonna\'s recipe — layers of espresso-dipped savoiardi and whipped mascarpone, dusted with Valrhona cocoa.',
+    ingredients: ['Mascarpone', 'Espresso', 'Savoiardi', 'Marsala wine', 'Cocoa'],
+    allergens: ['Dairy', 'Gluten', 'Eggs'],
+    image: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=800&q=80',
+    tags: ['Popular'],
+  },
+  {
+    id: 'panna-cotta',
+    name: 'Vanilla Bean Panna Cotta',
+    category: 'Desserts',
+    price: '$12',
+    shortDescription: 'Silken panna cotta with macerated berries.',
+    description:
+      'Madagascar vanilla panna cotta with a mirror of macerated seasonal berries and a touch of aged balsamic.',
+    ingredients: ['Cream', 'Madagascar vanilla', 'Mixed berries', 'Gelatin'],
+    allergens: ['Dairy'],
+    image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800&q=80',
+    tags: [],
+  },
+  {
+    id: 'amaretto-semifreddo',
+    name: 'Amaretto Semifreddo',
+    category: 'Desserts',
+    price: '$13',
+    shortDescription: 'Frozen almond cream with amaretti crumble.',
+    description:
+      'Light and airy semifreddo infused with amaretto, crowned with crushed amaretti cookies and toasted almonds.',
+    ingredients: ['Cream', 'Amaretto', 'Amaretti cookies', 'Almonds', 'Eggs'],
+    allergens: ['Dairy', 'Eggs', 'Nuts', 'Gluten'],
+    image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&q=80',
+    tags: [],
+  },
+  {
+    id: 'negroni-sbagliato',
+    name: 'Negroni Sbagliato',
+    category: 'Drinks',
+    price: '$16',
+    shortDescription: 'Campari, sweet vermouth, prosecco.',
+    description:
+      'The beloved "mistaken" Negroni — Campari and sweet vermouth topped with Prosecco di Valdobbiadene. Effervescent and bittersweet.',
+    ingredients: ['Campari', 'Sweet vermouth', 'Prosecco', 'Orange peel'],
+    allergens: [],
+    image: 'https://images.unsplash.com/photo-1625166447326-bd5085a6ec32?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    tags: ['Popular'],
+  },
+  {
+    id: 'barolo-riserva',
+    name: 'Barolo Riserva 2018',
+    category: 'Drinks',
+    price: '$28',
+    shortDescription: 'Glass of Barolo from Piedmont hills.',
+    description:
+      'A structured Barolo Riserva with notes of cherry, rose, and tar — the perfect companion to our braised dishes.',
+    ingredients: ['Nebbiolo grapes'],
+    allergens: ['Sulfites'],
+    image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80',
+    tags: [],
+  },
+  {
+    id: 'espresso-roman',
+    name: 'Espresso Roman Style',
+    category: 'Drinks',
+    price: '$6',
+    shortDescription: 'Double shot, Roman tradition.',
+    description:
+      'Pull of our house blend — a dark roast from Naples, served in the Roman tradition with a glass of sparkling water.',
+    ingredients: ['Espresso blend'],
+    allergens: [],
+    image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&q=80',
+    tags: [],
+  },
+  {
+    id: 'pastizza-tasting',
+    name: 'Pastizza Tasting Menu',
+    category: "Chef's Specials",
+    price: '$95',
+    shortDescription: 'Seven courses curated by Chef Alessandro.',
+    description:
+      'An immersive journey through our kitchen — seven courses showcasing seasonal ingredients, wood-fired pastizza, and a finale chosen by Chef Alessandro each evening.',
+    ingredients: ['Seasonal selection'],
+    allergens: ['Varies — please inquire'],
+    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80',
+    tags: ["Chef's Choice", 'Popular'],
+    chefRecommendation: 'Reserve 48 hours in advance. Wine pairing available.',
+    featured: true,
+  },
+  {
+    id: 'truffle-pastizza',
+    name: 'Truffle & Burrata Pastizza',
+    category: "Chef's Specials",
+    price: '$32',
+    shortDescription: 'White pastizza with black truffle shavings.',
+    description:
+      'Our signature white pastizza — fior di latte, burrata, and generous shavings of black truffle, finished with honey drizzle and micro arugula.',
+    ingredients: ['72-hour dough', 'Burrata', 'Black truffle', 'Honey', 'Fior di latte'],
+    allergens: ['Dairy', 'Gluten'],
+    image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',
+    tags: ["Chef's Choice"],
+    featured: true,
+  },
+];
+
+export function getMenuItemById(id: string): MenuItem | undefined {
+  return menuItems.find((item) => item.id === id);
+}
+
+export function getRelatedItems(currentId: string, limit = 3): MenuItem[] {
+  const current = getMenuItemById(currentId);
+  if (!current) return menuItems.slice(0, limit);
+  return menuItems
+    .filter((item) => item.id !== currentId && item.category === current.category)
+    .slice(0, limit);
+}
