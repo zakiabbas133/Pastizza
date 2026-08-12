@@ -1,7 +1,9 @@
-import { Instagram, Facebook, Twitter, ArrowUp } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import { restaurantInfo, navLinks } from "@/data/restaurant";
 import { scrollToSection } from "@/hooks/useLenis";
+import { IonIcon } from "@ionic/react";
+import { logoInstagram, logoFacebook } from "ionicons/icons";
 import "./Footer.css";
 
 export default function Footer() {
@@ -25,7 +27,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 aria-label="Instagram"
               >
-                <ion-icon name="logo-instagram"></ion-icon>
+                <IonIcon icon={logoInstagram} size="medium"></IonIcon>
               </a>
               <a
                 href={restaurantInfo.social.facebook}
@@ -33,7 +35,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 aria-label="Facebook"
               >
-                <ion-icon name="logo-facebook"></ion-icon>
+                <IonIcon icon={logoFacebook} size="medium"></IonIcon>
               </a>
             </div>
           </div>

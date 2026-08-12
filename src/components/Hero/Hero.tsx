@@ -3,6 +3,8 @@ import { ChevronDown } from "lucide-react";
 import { restaurantInfo } from "@/data/restaurant";
 import { scrollToSection } from "@/hooks/useLenis";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { IonIcon } from "@ionic/react";
+import { logoInstagram, logoFacebook } from "ionicons/icons";
 import "./Hero.css";
 
 export default function Hero() {
@@ -59,7 +61,7 @@ export default function Hero() {
             rel="noopener noreferrer"
             aria-label="Instagram"
           >
-            <ion-icon name="logo-instagram"></ion-icon>
+            <IonIcon icon={logoInstagram} size="medium"></IonIcon>
           </a>
           <a
             href={restaurantInfo.social.facebook}
@@ -67,7 +69,7 @@ export default function Hero() {
             rel="noopener noreferrer"
             aria-label="Facebook"
           >
-            <ion-icon name="logo-facebook"></ion-icon>
+            <IonIcon icon={logoFacebook} size="medium"></IonIcon>
           </a>
         </motion.div>
 
