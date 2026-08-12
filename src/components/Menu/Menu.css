@@ -12,6 +12,7 @@
 /* Featured scroll */
 .menu-featured {
   margin-bottom: var(--space-2xl);
+  overflow: hidden;
 }
 
 .menu-featured__title {
@@ -45,6 +46,7 @@
 .menu-featured__swiper {
   /* padding: 1rem 1.5rem 2rem 2.5rem; */
   padding-top: 40px;
+  overflow: hidden;
 }
 
 .menu-featured__slide {

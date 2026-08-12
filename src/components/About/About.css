@@ -90,4 +90,13 @@
     position: relative;
     top: 0;
   }
+
+  .about-section__image-stack {
+    overflow: hidden;
+  }
+
+  .about-section__img--accent {
+    right: 0;
+    width: 45%;
+  }
 }
