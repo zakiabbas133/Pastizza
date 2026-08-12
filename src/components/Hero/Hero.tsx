@@ -1,9 +1,9 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
-import { restaurantInfo } from '@/data/restaurant';
-import { scrollToSection } from '@/hooks/useLenis';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
-import './Hero.css';
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ChevronDown } from "lucide-react";
+import { restaurantInfo } from "@/data/restaurant";
+import { scrollToSection } from "@/hooks/useLenis";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import "./Hero.css";
 
 export default function Hero() {
   const reducedMotion = useReducedMotion();
@@ -25,7 +25,10 @@ export default function Hero() {
         <div className="hero__overlay" />
       </motion.div>
 
-      <motion.div className="hero__content container" style={{ y: textY, opacity }}>
+      <motion.div
+        className="hero__content container"
+        style={{ y: textY, opacity }}
+      >
         <motion.div
           className="hero__eyebrow"
           initial={reducedMotion ? false : { opacity: 0, y: 30 }}
@@ -44,6 +47,30 @@ export default function Hero() {
           <span className="hero__title-line">Pastizza</span>
         </motion.h1>
 
+        <motion.div
+          className="hero__social"
+          initial={reducedMotion ? false : { opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <a
+            href={restaurantInfo.social.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+          >
+            <ion-icon name="logo-instagram"></ion-icon>
+          </a>
+          <a
+            href={restaurantInfo.social.facebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook"
+          >
+            <ion-icon name="logo-facebook"></ion-icon>
+          </a>
+        </motion.div>
+
         <motion.p
           className="hero__tagline"
           initial={reducedMotion ? false : { opacity: 0, y: 40 }}
@@ -59,7 +86,8 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.1 }}
         >
-          Enter a place where fire, flour, and devotion converge — where every plate is a chapter in an unfolding story of Italian craft.
+          Enter a place where fire, flour, and devotion converge — where every
+          plate is a chapter in an unfolding story of Italian craft.
         </motion.p>
 
         <motion.div
@@ -68,7 +96,11 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.3 }}
         >
-          <button type="button" className="btn btn-primary" onClick={() => scrollToSection('#menu')}>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => scrollToSection("#menu")}
+          >
             Explore Menu
           </button>
         </motion.div>
@@ -90,7 +122,7 @@ export default function Hero() {
       <motion.button
         type="button"
         className="hero__scroll"
-        onClick={() => scrollToSection('#story')}
+        onClick={() => scrollToSection("#story")}
         aria-label="Scroll to learn more"
         initial={reducedMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -98,7 +130,7 @@ export default function Hero() {
       >
         <motion.span
           animate={reducedMotion ? {} : { y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
         >
           <ChevronDown size={24} />
         </motion.span>
