@@ -200,6 +200,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-lg);
+  margin-top: 4rem;
 }
 
 @media (min-width: 768px) {
