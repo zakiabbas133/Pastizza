@@ -29,7 +29,7 @@ export default function Hero() {
           loop
           playsInline
           className="hero__bg-image"
-          muted={false}
+          muted
         >
           <source src="https://pastizza.vercel.app/videos/heropizza.mp4" type="video/mp4" />
           Your browser does not support the video tag.
