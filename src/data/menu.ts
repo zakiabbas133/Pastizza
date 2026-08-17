@@ -3,6 +3,7 @@ export interface MenuItem {
   name: string;
   category: string;
   price: string;
+  dealPrice?: string;
   description: string;
   shortDescription: string;
   ingredients: string[];
@@ -11,6 +12,7 @@ export interface MenuItem {
   tags: string[];
   chefRecommendation?: string;
   featured?: boolean;
+  hotDeal?: boolean;
 }
 
 export const menuCategories = [
@@ -30,6 +32,8 @@ export const menuItems: MenuItem[] = [
     name: 'Burrata & Heirloom Garden',
     category: 'Starters',
     price: '$18',
+    dealPrice: '$14',
+    hotDeal: true,
     shortDescription: 'Creamy burrata with seasonal heirloom tomatoes and basil oil.',
     description:
       'Hand-pulled burrata resting on a canvas of heirloom tomatoes, finished with aged balsamic reduction, Sicilian olive oil, and fresh basil harvested daily from our rooftop garden.',
@@ -84,6 +88,8 @@ export const menuItems: MenuItem[] = [
     name: 'Truffle Risotto',
     category: 'Main Course',
     price: '$34',
+    dealPrice: '$28',
+    hotDeal: true,
     shortDescription: 'Carnaroli rice with black truffle and aged Parmigiano.',
     description:
       'Silky Carnaroli risotto finished tableside with shaved black truffle, 36-month Parmigiano-Reggiano, and a whisper of butter.',
@@ -99,6 +105,8 @@ export const menuItems: MenuItem[] = [
     name: 'Wood-Fired Margherita',
     category: 'Main Course',
     price: '$24',
+    dealPrice: '$19',
+    hotDeal: true,
     shortDescription: 'San Marzano tomatoes, fior di latte, fresh basil.',
     description:
       'Our namesake pastizza — a 72-hour fermented dough baked in our Acunto oven at 900°F, topped with DOP San Marzano, fior di latte, and basil.',

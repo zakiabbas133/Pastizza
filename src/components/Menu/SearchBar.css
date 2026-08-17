@@ -49,8 +49,13 @@
   background: rgba(255, 255, 255, 0.03);
 }
 
+.search-bar__input:focus-visible {
+    outline: 0px solid var(--color-accent);
+    outline-offset: 0px;
+}
+
 .search-bar__clear:focus-visible {
-  outline-offset: 2px;
+  outline-offset: 1px;
 }
 
 @media (max-width: 640px) {

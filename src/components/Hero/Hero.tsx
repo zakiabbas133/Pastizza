@@ -17,13 +17,23 @@ export default function Hero() {
   return (
     <section id="overview" className="hero" aria-label="Welcome to Pastizza">
       <motion.div className="hero__bg" style={{ y: imageY }}>
-        <img
+        {/* <img
           src={restaurantInfo.hero.image}
           alt="Elegant Pastizza dining room with warm candlelight"
           className="hero__bg-image"
           loading="eager"
           fetchPriority="high"
-        />
+        /> */}
+        <video
+          autoPlay
+          loop
+          playsInline
+          className="hero__bg-image"
+          muted={false}
+        >
+          <source src="/videos/heropizza.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
         <div className="hero__overlay" />
       </motion.div>
 
