@@ -1,4 +1,3 @@
-import { ArrowUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import { restaurantInfo, navLinks } from "@/data/restaurant";
 import { scrollToSection } from "@/hooks/useLenis";

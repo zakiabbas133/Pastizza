@@ -59,7 +59,7 @@ export default function Menu() {
   const featured = menuItems.filter((item) => item.featured);
 
   const swiperParams = {
-    modules: [Navigation, EffectCoverflow, Parallax],
+    modules: [Navigation, EffectCoverflow, Parallax, Autoplay],
     parallax: true,
     centeredSlides: true,
     loop: true,
