@@ -31,7 +31,7 @@ export default function Hero() {
           className="hero__bg-image"
           muted={false}
         >
-          <source src="/videos/heropizza.mp4" type="video/mp4" />
+          <source src="https://pastizza.vercel.app/videos/heropizza.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="hero__overlay" />
