@@ -7,7 +7,12 @@
   height: var(--nav-height);
   color: #fff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
-  transition: height var(--transition-base), background var(--transition-base), backdrop-filter var(--transition-base), color var(--transition-base), text-shadow var(--transition-base);
+  transition:
+    height var(--transition-base),
+    background var(--transition-base),
+    backdrop-filter var(--transition-base),
+    color var(--transition-base),
+    text-shadow var(--transition-base);
 }
 
 .navbar--scrolled {
@@ -67,7 +72,7 @@
 }
 
 .navbar__link::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -127,7 +132,9 @@
 .navbar__logo-text,
 .navbar__link,
 .navbar__burger {
-  transition: color var(--transition-base), text-shadow var(--transition-base);
+  transition:
+    color var(--transition-base),
+    text-shadow var(--transition-base);
 }
 
 @media (min-width: 1024px) {

@@ -4,7 +4,7 @@
 
 .menu-detail__hero {
   position: relative;
-  height: clamp(300px, 50vh, 500px);
+  height: clamp(300px, 100vh, 500px);
   overflow: hidden;
 }
 
@@ -14,15 +14,25 @@
   object-fit: cover;
 }
 
+.menu-img__overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--color-hero-overlay);
+}
+
+.menu-detail__hero-overlay-carousel-image {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--color-bg) 0%, transparent 10%);
+}
+
 .menu-detail__hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, var(--color-bg) 0%, transparent 60%);
 }
 
 .menu-detail__content {
   padding: var(--space-lg) clamp(1.25rem, 4vw, 3rem) var(--space-2xl);
-  margin-top: -4rem;
   position: relative;
   z-index: 2;
 }
@@ -208,4 +218,102 @@
 
 .menu-detail__related-info svg {
   color: var(--color-text-muted);
+}
+
+.mySwiper2 {
+  height: 60vh;
+  width: 100%;
+}
+
+.mySwiper {
+  height: 20%;
+  box-sizing: border-box;
+  padding: 10px 0;
+}
+
+.mySwiper .swiper-slide {
+  height: 15vh;
+  opacity: 0.25;
+}
+
+.mySwiper .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+/* Carousel Navigation Buttons */
+.mySwiper2 .swiper-button-next,
+.mySwiper2 .swiper-button-prev {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  transition: background-color var(--transition-fast);
+}
+
+.mySwiper2 .swiper-button-next:hover,
+.mySwiper2 .swiper-button-prev:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.swiper-navigation-icon {
+  width: 50% !important;
+  height: 50% !important;
+  fill: rgb(255 255 255) !important;
+  color: rgb(255 255 255) !important;
+}
+
+.mySwiper2 .swiper-button-next::after,
+.mySwiper2 .swiper-button-prev::after {
+  color: var(--color-text);
+  font-size: 20px;
+}
+
+/* Dark Theme */
+[data-theme="dark"] .mySwiper2 .swiper-button-next,
+[data-theme="dark"] .mySwiper2 .swiper-button-prev {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .mySwiper2 .swiper-button-next:hover,
+[data-theme="dark"] .mySwiper2 .swiper-button-prev:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="dark"] .mySwiper2 .swiper-button-next::after,
+[data-theme="dark"] .mySwiper2 .swiper-button-prev::after {
+  color: var(--color-text);
+}
+
+/* Carousel Pagination */
+.mySwiper2 .swiper-pagination {
+  bottom: 20px;
+}
+
+.mySwiper2 .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 1;
+  transition: background-color var(--transition-fast);
+}
+
+.mySwiper2 .swiper-pagination-bullet:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.mySwiper2 .swiper-pagination-bullet-active {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Dark Theme Pagination */
+[data-theme="dark"] .mySwiper2 .swiper-pagination-bullet {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .mySwiper2 .swiper-pagination-bullet:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+[data-theme="dark"] .mySwiper2 .swiper-pagination-bullet-active {
+  background-color: rgba(255, 255, 255, 0.8);
 }
