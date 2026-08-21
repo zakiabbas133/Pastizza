@@ -2,9 +2,13 @@
   padding-top: var(--nav-height);
 }
 
+/* =========================================================
+   HERO / IMAGE CAROUSEL
+========================================================= */
+
 .menu-detail__hero {
   position: relative;
-  height: clamp(300px, 100vh, 500px);
+  height: clamp(300px, 60vh, 500px);
   overflow: hidden;
 }
 
@@ -31,6 +35,10 @@
   inset: 0;
 }
 
+/* =========================================================
+   CONTENT
+========================================================= */
+
 .menu-detail__content {
   padding: var(--space-lg) clamp(1.25rem, 4vw, 3rem) var(--space-2xl);
   position: relative;
@@ -55,6 +63,7 @@
 }
 
 .menu-detail__category {
+  display: inline-block;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.2em;
@@ -75,6 +84,7 @@
 
 .menu-detail__tags {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: 1rem;
 }
@@ -95,6 +105,10 @@
   line-height: 1.9;
   max-width: 680px;
   margin-bottom: var(--space-lg);
+}
+
+.menu-detail__body {
+  min-height: 120px;
 }
 
 .menu-detail__chef-note {
@@ -120,6 +134,10 @@
   margin-bottom: 0.5rem;
 }
 
+/* =========================================================
+   META
+========================================================= */
+
 .menu-detail__meta-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -144,12 +162,22 @@
   margin-bottom: 0.75rem;
 }
 
+.menu-detail__meta ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 .menu-detail__meta li {
   font-size: 0.95rem;
   color: var(--color-text-muted);
   padding: 0.3rem 0;
   border-bottom: 1px solid var(--color-border);
 }
+
+/* =========================================================
+   RELATED DISHES
+========================================================= */
 
 .menu-detail__related {
   margin-top: var(--space-2xl);
@@ -176,25 +204,35 @@
 }
 
 .menu-detail__related-card {
+  display: block;
   border: 1px solid var(--color-border);
   overflow: hidden;
-  transition: border-color var(--transition-base);
+  transition:
+    border-color var(--transition-base),
+    transform var(--transition-base);
   border-radius: 10px;
 }
 
 .menu-detail__related-card:hover {
   border-color: var(--color-accent);
+  transform: translateY(-2px);
 }
 
 .menu-detail__related-card img {
   width: 100%;
-  aspect-ratio: 16/10;
+  aspect-ratio: 16 / 10;
   object-fit: cover;
   transition: transform var(--transition-slow);
 }
 
 .menu-detail__related-card:hover img {
   transform: scale(1.05);
+}
+
+.menu-detail__related-card-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: var(--color-bg-muted);
 }
 
 .menu-detail__related-info {
@@ -220,9 +258,14 @@
   color: var(--color-text-muted);
 }
 
+/* =========================================================
+   MAIN SWIPER
+========================================================= */
+
 .mySwiper2 {
   height: 60vh;
   width: 100%;
+  margin-top: calc(-1 * var(--nav-height));
 }
 
 .mySwiper {
@@ -234,13 +277,25 @@
 .mySwiper .swiper-slide {
   height: 15vh;
   opacity: 0.25;
+  overflow: hidden;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 .mySwiper .swiper-slide-thumb-active {
   opacity: 1;
 }
 
-/* Carousel Navigation Buttons */
+.mySwiper .swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =========================================================
+   CAROUSEL NAVIGATION
+========================================================= */
+
 .mySwiper2 .swiper-button-next,
 .mySwiper2 .swiper-button-prev {
   background-color: rgba(0, 0, 0, 0.3);
@@ -268,7 +323,10 @@
   font-size: 20px;
 }
 
-/* Dark Theme */
+/* =========================================================
+   DARK THEME - CAROUSEL
+========================================================= */
+
 [data-theme="dark"] .mySwiper2 .swiper-button-next,
 [data-theme="dark"] .mySwiper2 .swiper-button-prev {
   background-color: rgba(255, 255, 255, 0.15);
@@ -284,7 +342,10 @@
   color: var(--color-text);
 }
 
-/* Carousel Pagination */
+/* =========================================================
+   CAROUSEL PAGINATION
+========================================================= */
+
 .mySwiper2 .swiper-pagination {
   bottom: 20px;
 }
@@ -305,7 +366,10 @@
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-/* Dark Theme Pagination */
+/* =========================================================
+   DARK THEME - PAGINATION
+========================================================= */
+
 [data-theme="dark"] .mySwiper2 .swiper-pagination-bullet {
   background-color: rgba(255, 255, 255, 0.2);
 }
@@ -316,4 +380,348 @@
 
 [data-theme="dark"] .mySwiper2 .swiper-pagination-bullet-active {
   background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* =========================================================
+   DATA SKELETONS
+========================================================= */
+
+.menu-detail-skeleton {
+  width: 100%;
+}
+
+/*
+ * Common skeleton element.
+ *
+ * Uses theme variables rather than hard-coded light/dark
+ * colors so the skeleton naturally follows the application
+ * theme.
+ */
+
+.menu-detail-skeleton__line,
+.menu-detail-skeleton__box,
+.menu-detail-skeleton__image {
+  position: relative;
+  overflow: hidden;
+  background: var(--menu-skeleton-base);
+}
+
+/*
+ * Shimmer layer.
+ */
+
+.menu-detail-skeleton__line::after,
+.menu-detail-skeleton__box::after,
+.menu-detail-skeleton__image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--menu-skeleton-shimmer) 50%,
+    transparent 100%
+  );
+  animation: menu-detail-skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+/* =========================================================
+   HERO SKELETON
+========================================================= */
+
+.menu-detail-skeleton__hero {
+  width: 100%;
+  height: 60vh;
+  min-height: 300px;
+  max-height: 500px;
+  position: relative;
+  overflow: hidden;
+  background: var(--menu-skeleton-base);
+}
+
+.menu-detail-skeleton__image {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+/* Skeleton image overlay */
+
+.menu-detail-skeleton__hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to top, var(--color-bg), transparent 25%);
+}
+
+/* =========================================================
+   THUMBNAILS SKELETON
+========================================================= */
+
+.menu-detail-skeleton__thumbnails {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  height: 20%;
+  overflow: hidden;
+}
+
+.menu-detail-skeleton__thumbnail {
+  flex: 0 0 18%;
+  min-width: 70px;
+  height: 15vh;
+  max-height: 100px;
+  border-radius: 6px;
+}
+
+/* =========================================================
+   CONTENT SKELETON
+========================================================= */
+
+.menu-detail-skeleton__content {
+  padding: var(--space-lg) clamp(1.25rem, 4vw, 3rem) var(--space-2xl);
+  position: relative;
+  z-index: 2;
+}
+
+.menu-detail-skeleton__back {
+  width: 120px;
+  height: 14px;
+  border-radius: 3px;
+  margin-bottom: var(--space-lg);
+}
+
+.menu-detail-skeleton__category {
+  width: 110px;
+  height: 11px;
+  border-radius: 3px;
+  margin-bottom: 14px;
+}
+
+.menu-detail-skeleton__title {
+  width: min(520px, 80%);
+  height: clamp(42px, 5vw, 64px);
+  border-radius: 6px;
+  margin-bottom: 14px;
+}
+
+.menu-detail-skeleton__price {
+  width: 90px;
+  height: 24px;
+  border-radius: 4px;
+  margin-bottom: 18px;
+}
+
+.menu-detail-skeleton__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: var(--space-lg);
+}
+
+.menu-detail-skeleton__tag {
+  width: 65px;
+  height: 24px;
+  border-radius: 3px;
+}
+
+/* =========================================================
+   DESCRIPTION SKELETON
+========================================================= */
+
+.menu-detail-skeleton__description {
+  width: min(680px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: var(--space-lg);
+}
+
+.menu-detail-skeleton__description-line {
+  height: 16px;
+  border-radius: 4px;
+}
+
+.menu-detail-skeleton__description-line:nth-child(1) {
+  width: 100%;
+}
+
+.menu-detail-skeleton__description-line:nth-child(2) {
+  width: 96%;
+}
+
+.menu-detail-skeleton__description-line:nth-child(3) {
+  width: 88%;
+}
+
+.menu-detail-skeleton__description-line:nth-child(4) {
+  width: 68%;
+}
+
+/* =========================================================
+   META SKELETON
+========================================================= */
+
+.menu-detail-skeleton__meta-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+@media (min-width: 600px) {
+  .menu-detail-skeleton__meta-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.menu-detail-skeleton__meta-title {
+  width: 105px;
+  height: 11px;
+  border-radius: 3px;
+  margin-bottom: 14px;
+}
+
+.menu-detail-skeleton__meta-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu-detail-skeleton__meta-item {
+  width: 100%;
+  height: 16px;
+  border-radius: 4px;
+  padding: 0.3rem 0;
+}
+
+/* =========================================================
+   RELATED SKELETON
+========================================================= */
+
+.menu-detail-skeleton__related {
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--color-border);
+}
+
+.menu-detail-skeleton__related-title {
+  width: 240px;
+  height: 30px;
+  border-radius: 5px;
+  margin-bottom: var(--space-lg);
+}
+
+.menu-detail-skeleton__related-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+
+@media (min-width: 768px) {
+  .menu-detail-skeleton__related-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.menu-detail-skeleton__related-card {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+}
+
+.menu-detail-skeleton__related-image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+}
+
+.menu-detail-skeleton__related-info {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.menu-detail-skeleton__related-name {
+  flex: 1;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.menu-detail-skeleton__related-price {
+  width: 55px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+/* =========================================================
+   SKELETON THEME
+========================================================= */
+
+:root {
+  --menu-skeleton-base: rgba(0, 0, 0, 0.075);
+  --menu-skeleton-shimmer: rgba(255, 255, 255, 0.65);
+}
+
+[data-theme="dark"] {
+  --menu-skeleton-base: rgba(255, 255, 255, 0.075);
+  --menu-skeleton-shimmer: rgba(255, 255, 255, 0.09);
+}
+
+/* =========================================================
+   SKELETON ANIMATION
+========================================================= */
+
+@keyframes menu-detail-skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-detail-skeleton__line::after,
+  .menu-detail-skeleton__box::after,
+  .menu-detail-skeleton__image::after {
+    animation: none;
+    display: none;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 599px) {
+  .mySwiper2 {
+    height: 48vh;
+    min-height: 300px;
+  }
+
+  .menu-detail-skeleton__hero {
+    height: 48vh;
+    min-height: 300px;
+  }
+
+  .menu-detail-skeleton__thumbnail {
+    min-width: 60px;
+    height: 72px;
+  }
+
+  .menu-detail__content,
+  .menu-detail-skeleton__content {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .menu-detail-skeleton__title {
+    width: 90%;
+  }
 }

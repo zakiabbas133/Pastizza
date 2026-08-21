@@ -340,7 +340,7 @@ export default function Menu() {
                               </p>
 
                               <span className="menu-featured__price">
-                                {item.price}
+                                Rs. {item.price}/-
                               </span>
                             </div>
                           </div>
@@ -415,7 +415,7 @@ export default function Menu() {
                             <h4 className="menu-item__name">{item.name}</h4>
 
                             <span className="menu-item__price">
-                              {item.price}
+                              Rs. {item.price}/-
                             </span>
                           </div>
 
@@ -767,7 +767,7 @@ export default function Menu() {
                         <div className="menu-item__top">
                           <h4 className="menu-item__name">{item.name}</h4>
 
-                          <span className="menu-item__price">{item.price}</span>
+                          <span className="menu-item__price">Rs. {item.price}/-</span>
                         </div>
 
                         <p className="menu-item__desc">
