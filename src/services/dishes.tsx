@@ -6,12 +6,14 @@ import {
   query,
   where,
   type DocumentData,
-  type FieldValue,
+  type Timestamp,
 } from "firebase/firestore";
 
 import { db } from "../firebase/firebase";
 
-type FirestoreTimestamp = Date | FieldValue;
+/* =========================================================
+   Types
+========================================================= */
 
 export interface DishImage {
   id: string;
@@ -21,19 +23,31 @@ export interface DishImage {
 
 export interface Dish {
   id: string;
+
   name: string;
   category: string;
+
   price: string | number;
+  dealPrice?: string | number | null;
+
+  shortDescription: string;
   description: string;
+
   images: DishImage[];
+
   tags: string[];
   ingredients: string[];
   allergens: string[];
-  hotDeal?: boolean;
-  dealPrice?: string | number;
-  dealItems?: string[];
-  featured?: boolean;
-  chefRecommendation?: string;
+
+  dealItems: string[];
+
+  hotDeal: boolean;
+  featured: boolean;
+
+  chefRecommendation: string;
+
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
 }
 
 export interface ServiceResponse<T = undefined> {
@@ -44,68 +58,215 @@ export interface ServiceResponse<T = undefined> {
   error?: string;
 }
 
-interface FirestoreDishData extends DocumentData {
+/**
+ * Firestore can contain image URLs as strings from older documents,
+ * or image objects from newer documents.
+ */
+interface FirestoreDishImage {
+  id?: string;
+  src?: string;
   name?: string;
-  category?: string;
-
-  price?: number | string;
-  dealPrice?: number | string | null;
-
-  hotDeal?: boolean;
-  featured?: boolean;
-
-  shortDescription?: string;
-  description?: string;
-
-  ingredients?: string[];
-  allergens?: string[];
-  images?: string[];
-  tags?: string[];
-
-  dealItems?: string[];
-
-  createdAt?: FirestoreTimestamp;
-  updatedAt?: FirestoreTimestamp;
 }
 
+interface FirestoreDishData extends DocumentData {
+  name?: unknown;
+  category?: unknown;
+
+  price?: unknown;
+  dealPrice?: unknown;
+
+  hotDeal?: unknown;
+  featured?: unknown;
+
+  shortDescription?: unknown;
+  description?: unknown;
+
+  ingredients?: unknown;
+  allergens?: unknown;
+
+  images?: unknown;
+  tags?: unknown;
+
+  dealItems?: unknown;
+
+  chefRecommendation?: unknown;
+
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
+}
+
+/* =========================================================
+   Helpers
+========================================================= */
+
 /**
- * Maps a Firestore dish document into a strongly typed Dish.
+ * Converts unknown Firestore value into a safe string.
+ */
+const toStringValue = (value: unknown, fallback = ""): string => {
+  return typeof value === "string" ? value : fallback;
+};
+
+/**
+ * Converts unknown Firestore value into a safe price.
+ */
+const toPriceValue = (
+  value: unknown,
+  fallback: string | number = "",
+): string | number => {
+  if (typeof value === "string" || typeof value === "number") {
+    return value;
+  }
+
+  return fallback;
+};
+
+/**
+ * Converts an unknown Firestore array into string[].
+ */
+const toStringArray = (value: unknown): string[] => {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.filter((item): item is string => typeof item === "string");
+};
+
+/**
+ * Converts Firestore image data into DishImage[].
+ *
+ * Supports both:
+ *
+ * ["https://example.com/image.jpg"]
+ *
+ * and:
+ *
+ * [
+ *   {
+ *     id: "image-1",
+ *     src: "https://example.com/image.jpg",
+ *     name: "Dish image"
+ *   }
+ * ]
+ */
+const toDishImages = (value: unknown): DishImage[] => {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((image, index): DishImage | null => {
+      /* ---------------------------------------------
+         Old format:
+         images: ["url1", "url2"]
+      --------------------------------------------- */
+      if (typeof image === "string") {
+        const src = image.trim();
+
+        if (!src) {
+          return null;
+        }
+
+        return {
+          id: `image-${index}`,
+          src,
+          name: `Dish image ${index + 1}`,
+        };
+      }
+
+      /* ---------------------------------------------
+         New format:
+         images: [
+           {
+             id,
+             src,
+             name
+           }
+         ]
+      --------------------------------------------- */
+      if (typeof image === "object" && image !== null) {
+        const imageData = image as FirestoreDishImage;
+
+        const src =
+          typeof imageData.src === "string" ? imageData.src.trim() : "";
+
+        if (!src) {
+          return null;
+        }
+
+        return {
+          id:
+            typeof imageData.id === "string" && imageData.id.trim()
+              ? imageData.id
+              : `image-${index}`,
+
+          src,
+
+          name:
+            typeof imageData.name === "string" && imageData.name.trim()
+              ? imageData.name
+              : `Dish image ${index + 1}`,
+        };
+      }
+
+      return null;
+    })
+    .filter((image): image is DishImage => image !== null);
+};
+
+/* =========================================================
+   Mapper
+========================================================= */
+
+/**
+ * Maps a Firestore dish document into the application's
+ * strongly typed Dish model.
  */
 const mapDishDocument = (documentId: string, data: FirestoreDishData): Dish => {
   return {
     id: documentId,
 
-    name: data.name ?? "",
-    category: data.category ?? "",
+    name: toStringValue(data.name),
 
-    price: data.price ?? "",
-    dealPrice: data.dealPrice ?? null,
+    category: toStringValue(data.category),
 
-    hotDeal: data.hotDeal ?? false,
-    featured: data.featured ?? false,
+    price: toPriceValue(data.price),
 
-    shortDescription: data.shortDescription ?? "",
-    description: data.description ?? "",
+    dealPrice:
+      data.dealPrice === null ? null : toPriceValue(data.dealPrice),
 
-    ingredients: Array.isArray(data.ingredients) ? data.ingredients : [],
+    shortDescription: toStringValue(data.shortDescription),
 
-    allergens: Array.isArray(data.allergens) ? data.allergens : [],
+    description: toStringValue(data.description),
 
-    images: Array.isArray(data.images) ? data.images : [],
+    images: toDishImages(data.images),
 
-    tags: Array.isArray(data.tags) ? data.tags : [],
+    tags: toStringArray(data.tags),
 
-    dealItems: Array.isArray(data.dealItems) ? data.dealItems : [],
+    ingredients: toStringArray(data.ingredients),
 
-    ...(data.createdAt !== undefined && {
+    allergens: toStringArray(data.allergens),
+
+    dealItems: toStringArray(data.dealItems),
+
+    hotDeal: typeof data.hotDeal === "boolean" ? data.hotDeal : false,
+
+    featured: typeof data.featured === "boolean" ? data.featured : false,
+
+    chefRecommendation: toStringValue(data.chefRecommendation),
+
+    ...(data.createdAt && {
       createdAt: data.createdAt,
     }),
 
-    ...(data.updatedAt !== undefined && {
+    ...(data.updatedAt && {
       updatedAt: data.updatedAt,
     }),
   };
 };
+
+/* =========================================================
+   Get all dishes
+========================================================= */
 
 export const getDishes = async (): Promise<ServiceResponse<Dish[]>> => {
   try {
@@ -113,9 +274,9 @@ export const getDishes = async (): Promise<ServiceResponse<Dish[]>> => {
 
     const snapshot = await getDocs(dishesRef);
 
-    const dishes: Dish[] = snapshot.docs.map((document) =>
-      mapDishDocument(document.id, document.data() as FirestoreDishData),
-    );
+    const dishes: Dish[] = snapshot.docs.map((document) => {
+      return mapDishDocument(document.id, document.data() as FirestoreDishData);
+    });
 
     return {
       success: true,
@@ -131,6 +292,10 @@ export const getDishes = async (): Promise<ServiceResponse<Dish[]>> => {
     };
   }
 };
+
+/* =========================================================
+   Get dish by ID
+========================================================= */
 
 export const getMenuItemById = async (
   dishId: string,
@@ -156,7 +321,7 @@ export const getMenuItemById = async (
       };
     }
 
-    const dish: Dish = mapDishDocument(
+    const dish = mapDishDocument(
       snapshot.id,
       snapshot.data() as FirestoreDishData,
     );
@@ -176,11 +341,17 @@ export const getMenuItemById = async (
   }
 };
 
+/* =========================================================
+   Get dishes by category
+========================================================= */
+
 export const getMenuItemsByCategory = async (
   category: string,
 ): Promise<ServiceResponse<Dish[]>> => {
   try {
-    if (!category.trim()) {
+    const normalizedCategory = category.trim();
+
+    if (!normalizedCategory) {
       return {
         success: false,
         data: [],
@@ -190,13 +361,16 @@ export const getMenuItemsByCategory = async (
 
     const dishesRef = collection(db, "dishes");
 
-    const categoryQuery = query(dishesRef, where("category", "==", category));
+    const categoryQuery = query(
+      dishesRef,
+      where("category", "==", normalizedCategory),
+    );
 
     const snapshot = await getDocs(categoryQuery);
 
-    const dishes: Dish[] = snapshot.docs.map((document) =>
-      mapDishDocument(document.id, document.data() as FirestoreDishData),
-    );
+    const dishes: Dish[] = snapshot.docs.map((document) => {
+      return mapDishDocument(document.id, document.data() as FirestoreDishData);
+    });
 
     return {
       success: true,

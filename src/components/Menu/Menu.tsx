@@ -167,12 +167,9 @@ export default function Menu() {
    * Get the first image of a dish.
    */
   const getDishImage = (item: Dish): string => {
-      console.log(item);
+    console.log(item);
     return item.images?.[0].src ?? "";
   };
-
-
-  
 
   /**
    * Fetch categories.
@@ -286,7 +283,7 @@ export default function Menu() {
                 loop
                 slidesPerView={3}
               >
-                {featured.map((item: Dish) => {                  
+                {featured.map((item: Dish) => {
                   return (
                     <SwiperSlide key={item.id} className="menu-featured__slide">
                       <motion.div
