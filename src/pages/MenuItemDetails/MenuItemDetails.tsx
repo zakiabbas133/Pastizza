@@ -158,7 +158,7 @@ export default function MenuItemDetails() {
                 }}
                 className="mySwiper2"
               >
-                {item.images.map((image, index) => (
+                {item.images.map((image) => (
                   <SwiperSlide key={image?.id}>
                     <motion.img
                       src={image?.src}
@@ -200,7 +200,7 @@ export default function MenuItemDetails() {
                   modules={[FreeMode, Navigation, Thumbs]}
                   className="mySwiper"
                 >
-                  {item.images.map((image, index) => (
+                  {item.images.map((image) => (
                     <SwiperSlide key={image.id}>
                       <motion.img
                         src={image.src}
