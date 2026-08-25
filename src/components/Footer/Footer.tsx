@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Instagram, Facebook, Twitter } from "lucide-react";
 import styles from "./Footer.module.css";
 
 export function Footer() {
@@ -9,35 +8,35 @@ export function Footer() {
         <div className={styles.brand}>
           <div className={styles.logo}>
             <img className={styles.logoMark} src="/logo4.png" />
-          <p className={styles.tagline}>
-            Fire-kissed cuisine crafted with patience, the finest ingredients,
-            and a respect for tradition.
-          </p>
+            <p className={styles.tagline}>
+              Fire-kissed cuisine crafted with patience, the finest ingredients,
+              and a respect for tradition.
+            </p>
           </div>
           <div className={styles.social}>
             <a
-              href="https://instagram.com"
+              href="https://ig.me/m/pastizzapakistan"
               aria-label="Instagram"
               target="_blank"
               rel="noreferrer"
             >
-              <Instagram size={18} />
+              <img src={"/instagram.png"} alt="" aria-hidden="true" />
             </a>
             <a
-              href="https://facebook.com"
+              href="https://m.me/pastizza"
               aria-label="Facebook"
               target="_blank"
               rel="noreferrer"
             >
-              <Facebook size={18} />
+              <img src={"/facebook.png"} alt="" aria-hidden="true" />
             </a>
             <a
-              href="https://twitter.com"
+              href={`https://wa.me/923348609461?text=${encodeURIComponent("Assalamualaikum Pastizza! 🍕 I would like to place an order. Please share the available options.")}`}
               aria-label="Twitter"
               target="_blank"
               rel="noreferrer"
             >
-              <Twitter size={18} />
+              <img src={"/whatsapp.png"} alt="" aria-hidden="true" />
             </a>
           </div>
         </div>

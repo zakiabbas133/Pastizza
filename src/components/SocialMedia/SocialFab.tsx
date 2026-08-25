@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Share2, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
 import "./SocialFab.css";
@@ -212,9 +212,9 @@ const SocialFab = () => {
             }}
           >
             {open ? (
-              <X size={22} strokeWidth={2.4} />
+              <X size={30} color="#fff" strokeWidth={2.4} />
             ) : (
-              <Share2 size={21} strokeWidth={2.3} />
+              <img width={30} src="/social-media.png" />
             )}
           </motion.button>
         </motion.div>
