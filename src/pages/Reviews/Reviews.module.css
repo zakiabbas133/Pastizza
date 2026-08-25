@@ -1,0 +1,155 @@
+.hero {
+  padding-top: var(--space-12);
+  padding-bottom: var(--space-6);
+  background: var(--color-cream);
+}
+
+.stats {
+  padding-bottom: var(--space-10);
+  background: var(--color-cream);
+}
+
+.statsGrid {
+  display: grid;
+  gap: var(--space-8);
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (min-width: 700px) {
+  .statsGrid {
+    grid-template-columns: 200px 1fr;
+    align-items: center;
+  }
+}
+
+.score {
+  text-align: center;
+}
+
+.avg {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.score p {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin-top: var(--space-2);
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+  color: var(--color-gold);
+}
+
+.starFilled {
+  color: var(--color-gold);
+}
+
+.starEmpty {
+  color: var(--color-border-strong);
+}
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.barRow {
+  display: grid;
+  grid-template-columns: 32px 1fr 28px;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.barTrack {
+  height: 8px;
+  background: var(--color-cream);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+}
+
+.count {
+  color: var(--color-muted);
+  text-align: right;
+}
+
+.list {
+  background: var(--color-background);
+}
+
+.swiper {
+  padding-bottom: 48px !important;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  box-shadow: var(--shadow-sm);
+}
+
+.card .stars {
+  justify-content: flex-start;
+}
+
+.comment {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+  flex: 1;
+  font-style: italic;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.author strong {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.author span {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}

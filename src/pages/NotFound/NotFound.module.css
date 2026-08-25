@@ -1,0 +1,18 @@
+.wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  text-align: center;
+}
+
+.wrap h1 {
+  font-size: 5rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+}
+
+.wrap p {
+  margin-bottom: var(--space-6);
+  font-size: 1.1rem;
+}

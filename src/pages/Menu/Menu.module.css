@@ -1,0 +1,255 @@
+.hero {
+  padding-top: var(--space-12);
+  padding-bottom: var(--space-6);
+  background: var(--color-cream);
+}
+
+.filters {
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 40;
+  background: rgba(250, 247, 242, 0.92);
+  backdrop-filter: blur(12px);
+  padding-block: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.searchWrap {
+  position: relative;
+  max-width: 420px;
+  margin-bottom: var(--space-4);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-muted);
+  pointer-events: none;
+}
+
+.search {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 2.75rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search:focus {
+  border-color: var(--color-primary);
+}
+
+.clear {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-muted);
+  display: grid;
+  place-items: center;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  flex-shrink: 0;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  color: var(--color-text-secondary);
+  border: 1.5px solid transparent;
+  transition: all 0.2s;
+}
+
+.tab:hover {
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+.tabActive {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: var(--space-3);
+}
+
+.tagBtn {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  color: var(--color-muted);
+  transition: all 0.2s;
+}
+
+.tagBtn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.tagActive {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.results {
+  padding-block: var(--space-10);
+}
+
+.empty {
+  text-align: center;
+  padding: var(--space-16) var(--space-4);
+}
+
+.empty h3 {
+  margin-bottom: var(--space-2);
+}
+
+.empty p {
+  margin-bottom: var(--space-6);
+  color: var(--color-muted);
+}
+
+.groupTitle {
+  font-family: var(--font-body);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: var(--space-4);
+}
+
+.tableWrap {
+  display: none;
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  margin-bottom: var(--space-10);
+}
+
+@media (min-width: 900px) {
+  .tableWrap {
+    display: block;
+  }
+  .mobileCards {
+    display: none;
+  }
+}
+
+.mobileCards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  margin-bottom: var(--space-10);
+}
+
+@media (min-width: 640px) {
+  .mobileCards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table th {
+  text-align: left;
+  padding: 0.9rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-cream);
+}
+
+.table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+  font-weight: 700;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover td {
+  background: var(--color-cream);
+}
+
+.itemCell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.itemCell img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.itemCell strong {
+  display: block;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--color-text);
+}
+
+.itemCell span {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.otherGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+@media (min-width: 640px) {
+  .otherGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .otherGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
