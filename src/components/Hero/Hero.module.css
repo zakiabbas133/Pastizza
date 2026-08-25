@@ -1,10 +1,8 @@
 .hero {
   position: relative;
-  /* height: 50% !important; */
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  padding-bottom: var(--space-16);
   overflow: hidden;
 }
 

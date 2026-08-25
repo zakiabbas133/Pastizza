@@ -179,7 +179,7 @@ export function Navbar() {
                   onClick={closeMobileMenu}
                 >
                   {/* <span className={styles.logoMark}>P</span> */}
-                  <img src="/logo.png" />
+                  <img className={styles.logoMark} src="/logo4.png" />
 
                   <span className={styles.logoText}>PASTIZZA</span>
                 </Link>
