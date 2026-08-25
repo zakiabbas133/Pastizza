@@ -91,7 +91,7 @@ export function Navbar() {
         <div className={`container-wide ${styles.inner}`}>
           {/* Logo */}
           <Link to="/" className={styles.logo} aria-label="Pastizza home">
-            <span className={styles.logoMark}>P</span>
+            <img className={styles.logoMark} src="/logo4.png" />
 
             <span className={styles.logoText}>PASTIZZA</span>
           </Link>
@@ -178,7 +178,8 @@ export function Navbar() {
                   className={styles.drawerLogo}
                   onClick={closeMobileMenu}
                 >
-                  <span className={styles.logoMark}>P</span>
+                  {/* <span className={styles.logoMark}>P</span> */}
+                  <img src="/logo.png" />
 
                   <span className={styles.logoText}>PASTIZZA</span>
                 </Link>

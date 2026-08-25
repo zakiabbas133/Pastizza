@@ -50,21 +50,15 @@
 }
 
 .logoMark {
-  width: 36px;
-  height: 36px;
-
-  border-radius: 50%;
-
-  background: var(--color-primary);
+  width: 3.5rem;
+  height: 3.5rem;
   color: #fff;
-
+  border-radius: 0.5rem;
   display: grid;
   place-items: center;
-
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 1.15rem;
-
   flex-shrink: 0;
 }
 

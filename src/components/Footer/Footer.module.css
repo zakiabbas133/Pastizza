@@ -3,7 +3,19 @@
   color: #e8e0d5;
   padding-top: var(--space-16);
 }
-
+.logoMark {
+  width: 10rem;
+  height: 10rem;
+  color: #fff;
+  border-radius: 0.5rem;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
 .grid {
   display: grid;
   gap: var(--space-10);
@@ -18,14 +30,14 @@
 
 .logo {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 0.6rem;
-  font-family: var(--font-display);
   font-size: 1.35rem;
-  font-weight: 600;
   letter-spacing: 0.08em;
   color: #fff;
   margin-bottom: var(--space-4);
+  text-align: justify;
+  gap: 2rem;
 }
 
 .mark {
