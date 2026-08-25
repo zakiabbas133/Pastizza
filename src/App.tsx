@@ -11,12 +11,16 @@ import { Reviews } from "./pages/Reviews/Reviews";
 import { About } from "./pages/About/About";
 import { Contact } from "./pages/Contact/Contact";
 import { NotFound } from "./pages/NotFound/NotFound";
+import WebsiteLoader from "./components/WebsiteLoader/WebsiteLoader";
+import SocialFab from "./components/SocialMedia/SocialFab";
 
 export default function App() {
   return (
     <BrowserRouter>
       <CartProvider>
         <ScrollToTop />
+        <SocialFab />
+        <WebsiteLoader />
         <Navbar />
         <main>
           <Routes>

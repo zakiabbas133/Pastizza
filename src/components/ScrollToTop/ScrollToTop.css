@@ -1,0 +1,168 @@
+.scroll-to-top {
+  position: fixed;
+
+  right: 28px;
+  bottom: 28px;
+
+  z-index: 9999;
+
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  color: var(--color-primary, #eebe45);
+
+  background: rgba(23, 19, 11, 0.88);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.18),
+    0 3px 10px rgba(0, 0, 0, 0.12);
+
+  isolation: isolate;
+}
+
+/*
+ * Subtle glowing border
+ */
+.scroll-to-top::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  border-radius: inherit;
+
+  padding: 1px;
+
+  background: rgba(238, 190, 69, 0.15);
+
+  -webkit-mask-composite: xor;
+
+  mask-composite: exclude;
+
+  pointer-events: none;
+}
+
+/*
+ * Progress SVG
+ */
+.scroll-to-top__progress {
+  position: absolute;
+
+  inset: 3px;
+
+  width: calc(100% - 6px);
+  height: calc(100% - 6px);
+
+  transform: rotate(-90deg);
+
+  overflow: visible;
+
+  pointer-events: none;
+}
+
+.scroll-to-top__track {
+  fill: none;
+
+  stroke: rgba(255, 255, 255, 0.09);
+
+  stroke-width: 1.5;
+}
+
+.scroll-to-top__indicator {
+  fill: none;
+
+  stroke: #eebe45;
+
+  stroke-width: 2;
+
+  stroke-linecap: round;
+
+  filter: drop-shadow(0 0 4px rgba(238, 190, 69, 0.45));
+}
+
+/*
+ * Arrow
+ */
+.scroll-to-top__icon {
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #eebe45;
+}
+
+/*
+ * Hover glow
+ */
+.scroll-to-top:hover {
+  background: rgba(23, 19, 11, 0.96);
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.25),
+    0 0 25px rgba(238, 190, 69, 0.12);
+}
+
+/*
+ * Mobile
+ */
+@media (max-width: 768px) {
+  .scroll-to-top {
+    right: 18px;
+    bottom: 18px;
+
+    width: 48px;
+    height: 48px;
+  }
+
+  .scroll-to-top__progress {
+    inset: 2px;
+
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+  }
+}
+
+/*
+ * Small phones
+ */
+@media (max-width: 400px) {
+  .scroll-to-top {
+    right: 14px;
+    bottom: 14px;
+
+    width: 44px;
+    height: 44px;
+  }
+
+  .scroll-to-top__icon svg {
+    width: 17px;
+    height: 17px;
+  }
+}
+
+/*
+ * Reduced motion accessibility
+ */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-to-top__icon {
+    animation: none;
+  }
+}

@@ -1,0 +1,257 @@
+.social-fab {
+  position: fixed;
+
+  left: 28px;
+  bottom: 28px;
+
+  z-index: 9998;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  will-change: transform, opacity;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Main FAB
+|--------------------------------------------------------------------------
+*/
+
+.social-fab__button {
+  position: relative;
+
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  color: #17130b;
+
+  background: #eebe45;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.18),
+    0 4px 12px rgba(0, 0, 0, 0.12),
+    0 0 25px rgba(238, 190, 69, 0.15);
+
+  transition:
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.social-fab__button:hover {
+  background: #f2c75a;
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.24),
+    0 0 30px rgba(238, 190, 69, 0.25);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Pulse ring
+|--------------------------------------------------------------------------
+*/
+
+.social-fab__button::before {
+  content: "";
+
+  position: absolute;
+  inset: -5px;
+
+  border: 1px solid rgba(238, 190, 69, 0.35);
+
+  border-radius: 50%;
+
+  animation: social-fab-pulse 2.5s ease-out infinite;
+
+  pointer-events: none;
+}
+
+@keyframes social-fab-pulse {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.95);
+  }
+
+  70% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Social menu
+|--------------------------------------------------------------------------
+*/
+
+.social-fab__menu {
+  position: absolute;
+  bottom: 66px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Individual social buttons
+|--------------------------------------------------------------------------
+*/
+
+.social-fab__item {
+  position: relative;
+
+  width: 4rem;
+  height: 4rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  text-decoration: none;
+
+  color: white;
+
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+
+  transition:
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+}
+
+.social-fab__item:hover {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+
+  filter: brightness(1.08);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Social colors
+|--------------------------------------------------------------------------
+*/
+
+.social-fab__whatsapp {
+  background: #25d366;
+}
+
+.social-fab__facebook {
+  background: #1877f2;
+}
+
+.social-fab__instagram {
+  background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Tooltip
+|--------------------------------------------------------------------------
+*/
+
+.social-fab__tooltip {
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  color: white;
+  background: rgba(23, 19, 11, 0.92);
+  font-size: 0.72rem;
+  font-weight: 500;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-50%) translateX(5px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease;
+}
+
+.social-fab__item:hover .social-fab__tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Mobile
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 768px) {
+  .social-fab {
+    right: 18px;
+    bottom: 18px;
+  }
+
+  .social-fab__button {
+    width: 48px;
+    height: 48px;
+  }
+
+  .social-fab__item {
+    width: 43px;
+    height: 43px;
+  }
+
+  /*
+   * Hide tooltips on touch devices.
+   */
+  .social-fab__tooltip {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .social-fab {
+    right: 14px;
+    bottom: 14px;
+  }
+
+  .social-fab__button {
+    width: 44px;
+    height: 44px;
+  }
+
+  .social-fab__item {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Reduced motion
+|--------------------------------------------------------------------------
+*/
+
+@media (prefers-reduced-motion: reduce) {
+  .social-fab__button::before {
+    animation: none;
+  }
+}

@@ -1,0 +1,136 @@
+.website-loader {
+  position: fixed;
+  inset: 0;
+
+  z-index: 999999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background: #17130b;
+  color: #fff;
+
+  isolation: isolate;
+}
+
+.loader-glow {
+  position: absolute;
+
+  width: 500px;
+  height: 500px;
+
+  border-radius: 50%;
+
+  background: rgba(238, 190, 69, 0.12);
+
+  filter: blur(100px);
+
+  pointer-events: none;
+}
+
+.loader-content {
+  position: relative;
+  z-index: 2;
+
+  width: min(380px, calc(100% - 48px));
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+}
+
+.loader-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+  font-size: 72px;
+  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.35));
+}
+
+.bold-heading {
+    margin-bottom: 2rem !important;
+}
+
+.loader-content h1 {
+  margin: 0;
+
+  color: #eebe45;
+
+  font-size: clamp(2.4rem, 9vw, 3.5rem);
+  font-weight: 800;
+
+  line-height: 1;
+
+  letter-spacing: -0.05em;
+}
+
+.loader-content p {
+  margin: 14px 0 28px;
+
+  color: rgba(255, 255, 255, 0.6);
+
+  font-size: 0.9rem;
+}
+
+.loader-progress {
+  width: 100%;
+  height: 5px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.loader-progress__bar {
+  width: 0;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: #eebe45;
+
+  box-shadow: 0 0 15px rgba(238, 190, 69, 0.7);
+}
+
+.loader-progress__text {
+  margin-top: 10px;
+
+  color: rgba(255, 255, 255, 0.4);
+
+  font-size: 0.7rem;
+  font-weight: 600;
+
+  letter-spacing: 0.08em;
+}
+
+.logoMark {
+  width: 10rem;
+  height: 10rem;
+  color: #fff;
+  border-radius: 0.5rem;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+@media (max-width: 600px) {
+  .loader-content {
+    width: calc(100% - 56px);
+  }
+
+  .loader-icon {
+    font-size: 58px;
+  }
+}
