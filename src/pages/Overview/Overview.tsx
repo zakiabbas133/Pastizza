@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, A11y } from "swiper/modules";
 import { motion } from "framer-motion";
 import { Hero } from "../../components/Hero/Hero";
-import { SectionHeader } from "../../components/SectionHeader/SectionHeader";
+// import { SectionHeader } from "../../components/SectionHeader/SectionHeader";
 import { DealCard } from "../../components/DealCard/DealCard";
 import { FoodCard } from "../../components/FoodCard/FoodCard";
 import { deals } from "../../data/deals";
@@ -24,11 +24,7 @@ export function Overview() {
 
       <section className={`section ${styles.deals}`}>
         <div className="container">
-          <SectionHeader
-            label="Seasonal offers"
-            title="Deals worth gathering for"
-            description="Thoughtful combinations at a better price — built for sharing, or not."
-          />
+         
           <Swiper
             modules={[Navigation, Pagination, A11y]}
             spaceBetween={24}
@@ -77,11 +73,7 @@ export function Overview() {
 
       <section className={`section ${styles.categories}`}>
         <div className="container">
-          <SectionHeader
-            label="The kitchen"
-            title="What we fire"
-            description="From the oven to the board — categories built around heat and craft."
-          />
+       
           <div className={styles.catGrid}>
             {categoryCards.map((cat, i) => (
               <motion.div
@@ -109,11 +101,7 @@ export function Overview() {
 
       <section className={`section ${styles.featured}`}>
         <div className="container">
-          <SectionHeader
-            label="From the menu"
-            title="Featured plates"
-            description="A selection of what regulars order again — and again."
-          />
+        
           <div className={styles.foodGrid}>
             {featured.map((item, i) => (
               <FoodCard key={item.id} item={item} index={i} />

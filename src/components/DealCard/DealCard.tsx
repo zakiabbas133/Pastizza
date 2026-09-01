@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import type { Deal } from '../../types';
 import styles from './DealCard.module.css';
 
@@ -9,6 +8,22 @@ interface Props {
 }
 
 export function DealCard({ deal, index = 0 }: Props) {
+  const openWhatsapp = () => {
+    const message = [
+      'Assalamualaikum Pastizza!',
+      '',
+      `I would like to order: *${deal.title}*`,
+      `Description: ${deal.description}`,
+      `Includes: ${deal.items.join(' • ')}`,
+      `Price: Rs. ${deal.price}`,
+      deal.originalPrice ? `Original Price: Rs. ${deal.originalPrice}` : '',
+      '',
+      'Please share the available options and delivery details.',
+    ].filter(Boolean).join('\n');
+
+    const url = `https://wa.me/923348609461?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
   return (
     <motion.article
       className={styles.card}
@@ -36,9 +51,9 @@ export function DealCard({ deal, index = 0 }: Props) {
               <span className={styles.original}>Rs. {deal.originalPrice}</span>
             )}
           </div>
-          <Link to="/menu" className="btn btn-primary btn-sm">
+          <button onClick={openWhatsapp} className="btn btn-primary btn-sm">
             Order Deal
-          </Link>
+          </button>
         </div>
       </div>
     </motion.article>

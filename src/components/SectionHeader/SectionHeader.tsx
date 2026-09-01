@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import heroPizza from "../../assets/heropizza.mp4";
 import styles from './SectionHeader.module.css';
 
 interface Props {
@@ -22,9 +23,20 @@ export function SectionHeader({
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.5 }}
     >
-      {label && <span className="section-label">{label}</span>}
-      <h2 className={styles.title}>{title}</h2>
-      {description && <p className={styles.desc}>{description}</p>}
+      <video
+        src={heroPizza}
+        autoPlay
+        muted
+        loop
+        playsInline
+        className={styles.video}
+      />
+
+      <div className={styles.content}>
+        {label && <span className="section-label">{label}</span>}
+        <h2 className={styles.title}>{title}</h2>
+        {description && <p className={styles.desc}>{description}</p>}
+      </div>
     </motion.div>
   );
 }

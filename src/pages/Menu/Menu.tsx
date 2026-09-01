@@ -2,7 +2,7 @@ import { useMemo, useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { Search, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SectionHeader } from '../../components/SectionHeader/SectionHeader';
+// import { SectionHeader } from '../../components/SectionHeader/SectionHeader';
 import { FoodCard } from '../../components/FoodCard/FoodCard';
 import { menuItems } from '../../data/menu';
 import { categories } from '../../data/categories';
@@ -55,7 +55,7 @@ export function Menu() {
 
   return (
     <div className="page">
-      <section className={styles.hero}>
+      {/* <section className={styles.hero}>
         <div className="container">
           <SectionHeader
             label="The full list"
@@ -63,7 +63,7 @@ export function Menu() {
             description="Wood-fired pizza, hand-cut pasta, smash burgers, and more — every item priced by size where it matters."
           />
         </div>
-      </section>
+      </section> */}
 
       <section className={styles.filters}>
         <div className="container">
