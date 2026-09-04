@@ -13,6 +13,7 @@ import { Contact } from "./pages/Contact/Contact";
 import { NotFound } from "./pages/NotFound/NotFound";
 import WebsiteLoader from "./components/WebsiteLoader/WebsiteLoader";
 import SocialFab from "./components/SocialMedia/SocialFab";
+import DealDetails from "./pages/Deal/DealDetails";
 
 export default function App() {
   return (
@@ -26,10 +27,11 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Overview />} />
             <Route path="/menu" element={<Menu />} />
-            <Route path="/menu/:slug" element={<MenuItemDetail />} />
+            <Route path="/menu/:id" element={<MenuItemDetail />} />
             <Route path="/reviews" element={<Reviews />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/deal/:id" element={<DealDetails />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

@@ -1,52 +1,61 @@
-import { useMemo, useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
-import { Search, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useMemo, useState, useEffect } from "react";
+import { useSearchParams, Link } from "react-router-dom";
+import { Search, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 // import { SectionHeader } from '../../components/SectionHeader/SectionHeader';
-import { FoodCard } from '../../components/FoodCard/FoodCard';
-import { menuItems } from '../../data/menu';
-import { categories } from '../../data/categories';
-import type { MenuCategory } from '../../types';
-import styles from './Menu.module.css';
+import { FoodCard } from "../../components/FoodCard/FoodCard";
+// import { categories } from "../../data/categories";
+import { useGetMenuItemsQuery } from "../../services/menuApi";
+import type { MenuCategory } from "../../types";
+import styles from "./Menu.module.css";
+import { SectionHeader } from "../../components/SectionHeader/SectionHeader";
+import { useGetCategoriesQuery } from "../../services/categoriesApi";
 
 export function Menu() {
   const [params, setParams] = useSearchParams();
-  const initialCat = (params.get('category') as MenuCategory | 'all') || 'all';
-  const [category, setCategory] = useState<MenuCategory | 'all'>(initialCat);
-  const [query, setQuery] = useState('');
-  const [tagFilter, setTagFilter] = useState<string | null>(null);
+  const { data: menuItems = [], isLoading: menuItemsLoading } =
+    useGetMenuItemsQuery();
+
+  const { data: categories = [] } = useGetCategoriesQuery();
+
+  const initialCat = (params.get("category") as MenuCategory | "all") || "all";
+  const [category, setCategory] = useState<string | "all">(initialCat);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
-    const c = params.get('category') as MenuCategory | 'all' | null;
+    const c = params.get("category") as MenuCategory | "all" | null;
     if (c) setCategory(c);
   }, [params]);
 
   const filtered = useMemo(() => {
     let list = menuItems;
-    if (category !== 'all') {
-      list = list.filter((i) => i.category === category);
+    if (category !== "all") {
+      const categoryName = category.replace(/s$/, "");
+      list = list.filter(
+        (i) => i.categoryName.toLowerCase().replace(/s$/, "") === categoryName,
+      );
     }
     if (query.trim()) {
       const q = query.toLowerCase();
       list = list.filter(
         (i) =>
           i.name.toLowerCase().includes(q) ||
-          i.description.toLowerCase().includes(q) ||
-          i.tags?.some((t) => t.includes(q))
+          i.description.toLowerCase().includes(q),
       );
     }
-    if (tagFilter) {
-      list = list.filter((i) => i.tags?.includes(tagFilter));
-    }
     return list;
-  }, [category, query, tagFilter]);
+  }, [category, menuItems, query]);
 
-  const pizzaItems = filtered.filter((i) => i.category === 'pizza');
-  const otherItems = filtered.filter((i) => i.category !== 'pizza');
+  const pizzaItems = filtered.filter(
+    (i) => i.categoryName.toLowerCase() === "pizza",
+  );
+  const otherItems = filtered.filter(
+    (i) => i.categoryName.toLowerCase() !== "pizza",
+  );
 
-  function selectCategory(id: MenuCategory | 'all') {
+  function selectCategory(id: string | "all") {
     setCategory(id);
-    if (id === 'all') {
+    if (id === "all") {
       setParams({});
     } else {
       setParams({ category: id });
@@ -55,15 +64,16 @@ export function Menu() {
 
   return (
     <div className="page">
-      {/* <section className={styles.hero}>
+      <section className={styles.hero}>
         <div className="container">
           <SectionHeader
             label="The full list"
             title="Menu"
             description="Wood-fired pizza, hand-cut pasta, smash burgers, and more — every item priced by size where it matters."
+            video={false}
           />
         </div>
-      </section> */}
+      </section>
 
       <section className={styles.filters}>
         <div className="container">
@@ -81,7 +91,7 @@ export function Menu() {
               <button
                 type="button"
                 className={styles.clear}
-                onClick={() => setQuery('')}
+                onClick={() => setQuery("")}
                 aria-label="Clear search"
               >
                 <X size={16} />
@@ -90,25 +100,150 @@ export function Menu() {
           </div>
 
           <div className={styles.tabs} role="tablist" aria-label="Categories">
-            {categories.map((c) => (
-              <button
-                key={c.id}
-                type="button"
-                role="tab"
-                aria-selected={category === c.id}
-                className={`${styles.tab} ${category === c.id ? styles.tabActive : ''}`}
-                onClick={() => selectCategory(c.id)}
-              >
-                {c.label}
-              </button>
-            ))}
+            {[...(categories ?? [])]
+              .sort((a, b) => a.displayOrder - b.displayOrder)
+              .map((c) => (
+                <button
+                  key={c.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={category === c.id}
+                  className={`${styles.tab} ${
+                    category === c.label.toLocaleLowerCase()
+                      ? styles.tabActive
+                      : ""
+                  }`}
+                  onClick={() => selectCategory(c.label.toLowerCase())}
+                >
+                  {c.label}
+                </button>
+              ))}
           </div>
         </div>
       </section>
 
       <section className={styles.results}>
         <div className="container">
-          {filtered.length === 0 ? (
+          {menuItemsLoading ? (
+            <div
+              className={styles.menuLoading}
+              role="status"
+              aria-label="Loading menu items"
+            >
+              <div
+                className={styles.menuLoadingIllustration}
+                aria-hidden="true"
+              >
+                <svg viewBox="0 0 140 120" xmlns="http://www.w3.org/2000/svg">
+                  <circle
+                    cx="70"
+                    cy="60"
+                    r="48"
+                    fill="none"
+                    stroke="var(--color-primary)"
+                    strokeDasharray="4 8"
+                    className={styles.menuLoadingRing}
+                  />
+                  <path
+                    d="M39 58h62M45 48h50M49 68h42"
+                    stroke="var(--color-primary)"
+                    strokeWidth="5"
+                    strokeLinecap="round"
+                    opacity=".7"
+                  />
+                  <path
+                    d="M53 78c5-15 29-15 34 0"
+                    fill="none"
+                    stroke="var(--color-primary)"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                  />
+                  <circle
+                    cx="44"
+                    cy="35"
+                    r="5"
+                    fill="var(--color-primary)"
+                    opacity=".5"
+                  />
+                  <circle
+                    cx="98"
+                    cy="82"
+                    r="4"
+                    fill="var(--color-primary)"
+                    opacity=".5"
+                  />
+                </svg>
+              </div>
+              <h2 className={styles.menuLoadingTitle}>Preparing the menu</h2>
+              <p className={styles.menuLoadingText}>
+                Gathering something delicious for you...
+              </p>
+              <div className={styles.menuLoadingDots} aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </div>
+              <div className={styles.menuSkeletonGrid} aria-hidden="true">
+                {[1, 2, 3, 4].map((item) => (
+                  <div className={styles.menuSkeletonCard} key={item} />
+                ))}
+              </div>
+            </div>
+          ) : menuItems.length === 0 ? (
+            <motion.div
+              className={styles.emptyMenu}
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <motion.div
+                className={styles.emptyMenuIcon}
+                aria-hidden="true"
+                animate={{ y: [0, -7, 0], rotate: [0, 2, -2, 0] }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="47"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeDasharray="4 7"
+                    opacity=".3"
+                  />
+                  <path
+                    d="M35 43h50l-5 40H40Z"
+                    fill="var(--color-primary)"
+                    opacity=".72"
+                  />
+                  <path
+                    d="M43 43c0-12 34-12 34 0M49 57h22M48 66h24"
+                    fill="none"
+                    stroke="var(--color-cream)"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="m25 31 2 5 5 2-5 2-2 5-2-5-5-2 5-2ZM94 76l2 4 4 2-4 2-2 4-2-4-4-2 4-2Z"
+                    fill="currentColor"
+                    opacity=".55"
+                  />
+                </svg>
+              </motion.div>
+              <span className={styles.emptyMenuEyebrow}>
+                The kitchen is getting ready
+              </span>
+              <h2>Our menu is coming soon</h2>
+              <p>
+                We&apos;re preparing a delicious selection for you. Check back
+                soon and discover your next favourite dish.
+              </p>
+            </motion.div>
+          ) : filtered.length === 0 ? (
             <div className={styles.empty}>
               <h3>No dishes found</h3>
               <p>Try another category or search term.</p>
@@ -116,9 +251,8 @@ export function Menu() {
                 type="button"
                 className="btn btn-secondary"
                 onClick={() => {
-                  setQuery('');
-                  setTagFilter(null);
-                  selectCategory('all');
+                  setQuery("");
+                  selectCategory("all");
                 }}
               >
                 Reset filters
@@ -127,7 +261,7 @@ export function Menu() {
           ) : (
             <AnimatePresence mode="wait">
               <motion.div
-                key={`${category}-${query}-${tagFilter}`}
+                key={`${category}-${query}`}
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
@@ -151,25 +285,42 @@ export function Menu() {
                         <tbody>
                           {pizzaItems.map((item) => {
                             const prices = Object.fromEntries(
-                              item.variants.map((v) => [v.name, v.price])
+                              item.variants.map((v) => [v.name, v.price]),
                             );
+
                             return (
                               <tr key={item.id}>
                                 <td>
-                                  <Link to={`/menu/${item.slug}`} className={styles.itemCell}>
-                                    <img src={item.image} alt="" width={48} height={48} />
+                                  <Link
+                                    to={`/menu/${item.id}`}
+                                    className={styles.itemCell}
+                                  >
+                                    <img
+                                      src={item.image ?? "/logo4.png"}
+                                      alt=""
+                                      width={48}
+                                      height={48}
+                                      onError={(e) => {
+                                        e.currentTarget.src = "/logo4.png";
+                                      }}
+                                    />
                                     <div>
                                       <strong>{item.name}</strong>
-                                      <span>{item.description.slice(0, 60)}…</span>
+                                      <span>
+                                        {item.description.slice(0, 60)}…
+                                      </span>
                                     </div>
                                   </Link>
                                 </td>
-                                <td>Rs. {prices['Small'] ?? '—'}</td>
-                                <td>Rs. {prices['Medium'] ?? '—'}</td>
-                                <td>Rs. {prices['Large'] ?? '—'}</td>
-                                <td>Rs. {prices['XL'] ?? '—'}</td>
+                                <td>Rs. {prices["Small"] ?? "—"}</td>
+                                <td>Rs. {prices["Medium"] ?? "—"}</td>
+                                <td>Rs. {prices["Large"] ?? "—"}</td>
+                                <td>Rs. {prices["XL"] ?? "—"}</td>
                                 <td>
-                                  <Link to={`/menu/${item.slug}`} className="btn btn-sm btn-primary">
+                                  <Link
+                                    to={`/menu/${item.id}`}
+                                    className="btn btn-sm btn-primary"
+                                  >
                                     View
                                   </Link>
                                 </td>

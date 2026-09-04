@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import styles from "./Footer.module.css";
+import { useGetWebsiteSettingsQuery } from "../../services/websiteSettingsApi";
 
 export function Footer() {
+  const { data: websiteSettings = null } = useGetWebsiteSettingsQuery();
+
   return (
     <footer className={styles.footer}>
       <div className={`container ${styles.grid}`}>
@@ -15,7 +18,7 @@ export function Footer() {
           </div>
           <div className={styles.social}>
             <a
-              href="https://ig.me/m/pastizzapakistan"
+              href={websiteSettings?.instagramUrl}
               aria-label="Instagram"
               target="_blank"
               rel="noreferrer"
@@ -23,7 +26,7 @@ export function Footer() {
               <img src={"/instagram.png"} alt="" aria-hidden="true" />
             </a>
             <a
-              href="https://m.me/pastizza"
+              href={websiteSettings?.facebookUrl}
               aria-label="Facebook"
               target="_blank"
               rel="noreferrer"
@@ -31,7 +34,7 @@ export function Footer() {
               <img src={"/facebook.png"} alt="" aria-hidden="true" />
             </a>
             <a
-              href={`https://wa.me/923348609461?text=${encodeURIComponent("Assalamualaikum Pastizza! 🍕 I would like to place an order. Please share the available options.")}`}
+              href={`${websiteSettings?.whatsappUrl}?text=${encodeURIComponent(websiteSettings?.whatsappMessage as string)}`}
               aria-label="Twitter"
               target="_blank"
               rel="noreferrer"
@@ -89,10 +92,12 @@ export function Footer() {
             <li>Riverside — 42 Ember Lane</li>
             <li>Oak & Main — 118 Main St</li>
             <li>
-              <a href="tel:+15550142200">+1 (555) 014-2200</a>
+              <a href={`tel:+${websiteSettings?.whatsappUrl.split('/').pop()}`}>+{websiteSettings?.whatsappUrl.split('/').pop()}</a>
             </li>
             <li>
-              <a href="mailto:hello@pastizza.example">hello@pastizza.example</a>
+              <a href={`mailto:${websiteSettings?.email}`}>
+                {websiteSettings?.email}
+              </a>
             </li>
           </ul>
           <Link to="/menu" className={`btn btn-primary btn-sm ${styles.order}`}>
@@ -102,7 +107,7 @@ export function Footer() {
       </div>
       <div className={styles.bottom}>
         <div className="container">
-          <p>© {new Date().getFullYear()} Pastizza. Demo restaurant website.</p>
+          <p>© {new Date().getFullYear()} — Pastizza</p>
         </div>
       </div>
     </footer>

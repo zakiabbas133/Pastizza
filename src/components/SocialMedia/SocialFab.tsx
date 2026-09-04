@@ -4,30 +4,32 @@ import { X } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
 import "./SocialFab.css";
-
-const SOCIAL_LINKS = [
-  {
-    name: "WhatsApp",
-    icon: "/whatsapp.png",
-    url: `https://wa.me/923348609461?text=${encodeURIComponent("Assalamualaikum Pastizza! 🍕 I would like to place an order. Please share the available options.")}`,
-    className: "social-fab__whatsapp",
-  },
-  {
-    name: "Facebook",
-    icon: "/facebook.png",
-    url: "https://m.me/pastizza",
-    className: "social-fab__facebook",
-  },
-  {
-    name: "Instagram",
-    icon: "/instagram.png",
-    url: "https://ig.me/m/pastizzapakistan",
-    className: "social-fab__instagram",
-  },
-];
+import { useGetWebsiteSettingsQuery } from "../../services/websiteSettingsApi";
 
 const SocialFab = () => {
   const { pathname } = useLocation();
+  const { data: websiteSettings = null } = useGetWebsiteSettingsQuery();
+
+  const SOCIAL_LINKS = [
+    {
+      name: "WhatsApp",
+      icon: "/whatsapp.png",
+      url: `${websiteSettings?.whatsappUrl}?text=${encodeURIComponent(websiteSettings?.whatsappMessage as string)}`,
+      className: "social-fab__whatsapp",
+    },
+    {
+      name: "Facebook",
+      icon: "/facebook.png",
+      url: `${websiteSettings?.facebookUrl}`,
+      className: "social-fab__facebook",
+    },
+    {
+      name: "Instagram",
+      icon: "/instagram.png",
+      url: `${websiteSettings?.instagramUrl}`,
+      className: "social-fab__instagram",
+    },
+  ];
 
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);

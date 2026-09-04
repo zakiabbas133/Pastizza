@@ -30,11 +30,21 @@ export interface Deal {
   id: string;
   title: string;
   description: string;
-  image: string;
+  image?: string | null;
   price: number;
-  originalPrice?: number;
-  badge?: string;
-  items: string[];
+  originalPrice?: number | null;
+  badge?: string | null;
+  items?: string[];
+  isActive?: boolean;
+  dealItems?: {
+    id: string;
+    menuItemId: string;
+    menuItemVariantId?: string | null;
+    quantity: number;
+    displayOrder: number;
+    menuItemName?: string | null;
+    menuItemVariantName?: string | null;
+  }[];
   featured?: boolean;
 }
 

@@ -16,35 +16,55 @@
 .layout {
   display: grid;
   gap: var(--space-8);
-  margin-bottom: var(--space-16);
+  margin-bottom: var(--space-10);
+  min-width: 0;
 }
 
 @media (min-width: 900px) {
   .layout {
-    grid-template-columns: 1.1fr 1fr;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
     gap: var(--space-12);
     align-items: start;
   }
+}
+
+.info {
+  min-width: 0;
 }
 
 .image {
   position: relative;
   border-radius: var(--radius-xl);
   overflow: hidden;
-  aspect-ratio: 1;
+  aspect-ratio: 5 / 4;
   background: var(--color-cream);
+  box-shadow: var(--shadow-xl);
 }
 
 .image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.8s var(--ease);
 }
 
-.badge {
+.image:hover img {
+  transform: scale(1.03);
+}
+
+.imageBadges {
   position: absolute;
   top: 16px;
   left: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   padding: 0.35rem 0.8rem;
   background: var(--color-primary);
   color: #fff;
@@ -53,22 +73,95 @@
   border-radius: var(--radius-full);
 }
 
+.imageCaption {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-full);
+  background: rgba(26, 21, 18, 0.72);
+  color: #fff;
+  font-size: 0.76rem;
+  backdrop-filter: blur(8px);
+  max-width: calc(100% - 32px);
+}
+
+.imageCaption span,
+.highlights div,
+.orderNote {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.imageCaption span {
+  white-space: nowrap;
+}
+
 .category {
-  font-size: 2.75rem;
+  font-size: 0.78rem;
   font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-primary);
 }
 
+.eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.available,
+.unavailable {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-success);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.unavailable {
+  color: var(--color-error);
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 4px color-mix(in srgb, currentColor 16%, transparent);
+}
+
 .info h1 {
-  margin: var(--space-2) 0 var(--space-4);
-  font-size: clamp(2rem, 4vw, 2rem);
+  margin: var(--space-3) 0 var(--space-4);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 0.98;
+  overflow-wrap: anywhere;
 }
 
 .desc {
+  max-width: 590px;
   font-size: 1.05rem;
-  line-height: 1.7;
-  margin-bottom: var(--space-5);
+  line-height: 1.75;
+  margin-bottom: var(--space-6);
+}
+
+.highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin-bottom: var(--space-8);
+  color: var(--color-text-secondary);
+  font-size: 0.82rem;
+}
+
+.highlights svg {
+  color: var(--color-primary);
 }
 
 .tags {
@@ -108,6 +201,13 @@
   color: var(--color-text-secondary);
 }
 
+.variantsBoxes {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-shrink: wrap;
+}
+
 .variants h3 {
   font-family: var(--font-body);
   font-size: 0.8rem;
@@ -117,11 +217,52 @@
   margin-bottom: var(--space-3);
 }
 
+.singlePrice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid rgba(201, 162, 39, 0.35);
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--color-cream), var(--color-surface));
+  min-width: 20rem;
+}
+
+.singlePrice div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.priceLabel {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.singlePrice strong {
+  font-size: 1rem;
+}
+
+.price {
+  color: var(--color-primary);
+  font-size: 1.65rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.price small {
+  font-size: 0.85rem;
+}
+
 .variantList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 2fr));
   gap: 0.5rem;
   margin-bottom: var(--space-6);
+ 
 }
 
 .variantBtn {
@@ -135,6 +276,8 @@
   background: var(--color-surface);
   transition: all 0.2s;
   text-align: left;
+  /* width: 100%; */
+  /* min-width: 9rem; */
 }
 
 .variantBtn:hover {
@@ -153,6 +296,19 @@
 
 .variantBtn strong {
   font-size: 1.1rem;
+}
+
+.orderNote {
+  width: 100%;
+  padding: var(--space-4);
+  border-left: 3px solid var(--color-primary);
+  background: var(--color-cream);
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+}
+
+.orderNote svg {
+  color: var(--color-primary);
 }
 
 .orderRow {
@@ -206,8 +362,108 @@
   gap: var(--space-5);
 }
 
+@media (max-width: 899px) {
+  .layout {
+    max-width: 760px;
+    margin-inline: auto;
+  }
+
+  .image {
+    max-height: min(70vw, 560px);
+  }
+
+  .info {
+    max-width: 680px;
+    margin-inline: auto;
+  }
+}
+
 @media (min-width: 640px) {
   .relatedGrid {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 640px) and (max-width: 899px) {
+  .relatedGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .back {
+    margin: var(--space-5) 0 var(--space-6);
+  }
+
+  .layout {
+    gap: var(--space-6);
+    margin-bottom: var(--space-12);
+  }
+
+  .image {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg);
+  }
+
+  .imageBadges {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+  }
+
+  .badge {
+    padding: 0.3rem 0.65rem;
+    font-size: 0.68rem;
+  }
+
+  .imageCaption {
+    right: 12px;
+    bottom: 12px;
+    max-width: calc(100% - 24px);
+    padding: 0.42rem 0.6rem;
+    font-size: 0.7rem;
+  }
+
+  .info h1 {
+    margin-top: var(--space-3);
+    font-size: clamp(2.35rem, 13vw, 3.5rem);
+  }
+
+  .desc {
+    font-size: 0.98rem;
+    line-height: 1.65;
+  }
+
+  .highlights {
+    gap: 0.65rem 1rem;
+    margin-bottom: var(--space-6);
+    font-size: 0.78rem;
+  }
+
+  .singlePrice {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-width: 12rem;
+  }
+
+  .related {
+    padding-bottom: var(--space-12);
+  }
+
+  .related h2 {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .imageCaption span {
+    white-space: normal;
+  }
+
+  .eyebrow {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--space-2);
   }
 }

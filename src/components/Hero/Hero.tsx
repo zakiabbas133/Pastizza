@@ -1,18 +1,23 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Autoplay, Navigation, Pagination } from "swiper/modules";
-
-import { deals } from "../../data/deals";
-
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import styles from "./Hero.module.css";
+import { useGetWebsiteSettingsQuery } from "../../services/websiteSettingsApi";
+import { baseUrl } from "../../services/api";
 
 export function Hero() {
+  const { data: websiteSettings = null } = useGetWebsiteSettingsQuery();
+  let sliderImages: string[] = [];
+
+  if (websiteSettings?.sliderImages) {
+    sliderImages = JSON.parse(websiteSettings.sliderImages) as string[];
+  }
+
   return (
     <section className={styles.hero}>
-      {/* Background Slider */}
       <div className={styles.bg}>
         <Swiper
           modules={[Navigation, Pagination, A11y, Autoplay]}
@@ -32,18 +37,22 @@ export function Hero() {
           }}
           className={styles.swiper}
         >
-          {deals.map((deal, index) => (
-            <SwiperSlide key={deal.id ?? index} className={styles.slide}>
-              <img
-                src={
-                  "https://www.pizzasta.co/_next/image?url=%2Fimages%2Fmidnight-hero-1.jpg&w=1920&q=75"
-                }
-                alt={deal.title || "Pastizza special offer"}
-                className={styles.image}
-              />
-
-            </SwiperSlide>
-          ))}
+          {sliderImages.map((image, index) => {
+            const sliderImage = baseUrl + image;
+            sliderImage;
+            return (
+              <SwiperSlide key={image ?? index} className={styles.slide}>
+                <img
+                  src={sliderImage}
+                  alt={"Pastizza special offer"}
+                  className={styles.image}
+                  onError={(e) => {
+                    e.currentTarget.src = "/slider1.webp";
+                  }}
+                />
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       </div>
     </section>
