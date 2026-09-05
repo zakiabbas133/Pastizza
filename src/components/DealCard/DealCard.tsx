@@ -27,7 +27,6 @@ export function DealCard({ deal, index = 0 }: Props) {
       `I would like to order: *${deal.title}*`,
       `Description: ${deal.description}`,
       dealItems.length > 0 ? `Includes: ${dealItems.join(" • ")}` : "",
-      deal.image ? `Image: ${baseUrl + deal.image}` : "",
       "",
       "Please share the available options and delivery details.",
     ]
