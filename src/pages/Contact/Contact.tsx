@@ -2,9 +2,11 @@ import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { SectionHeader } from "../../components/SectionHeader/SectionHeader";
-import { locations } from "../../data/locations";
 import styles from "./Contact.module.css";
 import GoogleMap from "../../components/GoogleMap/GoogleMap";
+import { useGetLocationsQuery } from "../../services/locationsApi";
+import { useGetWebsiteSettingsQuery } from "../../services/websiteSettingsApi";
+import type { Location } from "../../types";
 
 interface FormState {
   name: string;
@@ -23,6 +25,11 @@ const initial: FormState = {
 };
 
 export function Contact() {
+  const { data: locationsData = [], isLoading: locationsLoading } =
+    useGetLocationsQuery();
+  const { data: websiteSettings, isLoading: websiteSettingsLoading } =
+    useGetWebsiteSettingsQuery();
+
   const [form, setForm] = useState<FormState>(initial);
   const [errors, setErrors] = useState<Partial<FormState>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -65,65 +72,105 @@ export function Contact() {
       </section>
 
       <section className={styles.content}>
-        <div className={`container ${styles.grid}`}>
-          <div className={styles.locations}>
-            {locations.map((loc, i) => (
-              <motion.article
-                key={loc.id}
-                className={styles.locCard}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-              >
-                <h3>{loc.name}</h3>
-                <ul className={styles.details}>
-                  <li>
-                    <MapPin size={16} />
-                    <span>{loc.address}</span>
-                  </li>
-                  <li>
-                    <Phone size={16} />
-                    <a href={`tel:${loc.phone}`}>{loc.phone}</a>
-                  </li>
-                  <li>
-                    <Clock size={16} />
-                    <span>
-                      {loc.openingHours.map((h) => (
-                        <span key={h} className={styles.hours}>
-                          {h}
-                        </span>
-                      ))}
-                    </span>
-                  </li>
-                </ul>
-                <div className={styles.locActions}>
-                  <a
-                    href={`https://maps.google.com/?q=${encodeURIComponent(loc.address)}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btn-secondary btn-sm"
-                  >
-                    Directions
-                  </a>
-                  <a
-                    href={`tel:${loc.phone}`}
-                    className="btn btn-primary btn-sm"
-                  >
-                    Call
-                  </a>
-                </div>
-              </motion.article>
-            ))}
-
-            <div className={styles.general}>
-              <h3>General</h3>
-              <p>
-                <Mail size={16} />{" "}
-                <a href="mailto:hello@pastizza.example">hello@pastizza.example</a>
-              </p>
+        <div
+          className={`container ${locationsLoading || locationsData.length !== 0 ? styles.grid : styles.block}`}
+        >
+          {locationsLoading ? (
+            <div
+              className={styles.locations}
+              role="status"
+              aria-label="Loading locations"
+            >
+              {["one", "two"].map((location) => (
+                <article
+                  className={`${styles.locCard} ${styles.skeletonCard}`}
+                  key={location}
+                  aria-hidden="true"
+                >
+                  <span
+                    className={`${styles.skeletonLine} ${styles.skeletonTitle}`}
+                  />
+                  <span
+                    className={`${styles.skeletonLine} ${styles.skeletonText}`}
+                  />
+                  <span
+                    className={`${styles.skeletonLine} ${styles.skeletonText}`}
+                  />
+                  <span
+                    className={`${styles.skeletonLine} ${styles.skeletonTextShort}`}
+                  />
+                  <div className={styles.skeletonActions}>
+                    <span className={styles.skeletonButton} />
+                    <span className={styles.skeletonButton} />
+                  </div>
+                </article>
+              ))}
             </div>
-          </div>
+          ) : locationsData.length !== 0 ? (
+            <div className={styles.locations}>
+              {locationsData.map((loc: Location, i: number) => (
+                <motion.article
+                  key={loc.id}
+                  className={styles.locCard}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                >
+                  <h3>{loc.name}</h3>
+                  <ul className={styles.details}>
+                    <li>
+                      <MapPin size={16} />
+                      <span>{loc.address}</span>
+                    </li>
+                    <li>
+                      <Phone size={16} />
+                      <a href={`tel:${loc.phone}`}>{loc.phone}</a>
+                    </li>
+                    <li>
+                      <Clock size={16} />
+                      <span>{loc.openingHours}</span>
+                    </li>
+                  </ul>
+                  <div className={styles.locActions}>
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                        `${loc.coordinates?.lat},${loc.coordinates?.lng}`,
+                      )}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn btn-secondary btn-sm"
+                    >
+                      Directions
+                    </a>
+                    <a
+                      href={`tel:${loc.phone}`}
+                      className="btn btn-primary btn-sm"
+                    >
+                      Call
+                    </a>
+                  </div>
+                </motion.article>
+              ))}
+
+              <div className={styles.general}>
+                <h3>General</h3>
+                <p>
+                  <Mail size={16} />{" "}
+                  <a href="mailto:hello@pastizza.example">
+                    {websiteSettingsLoading ? (
+                      <span
+                        className={styles.skeletonInline}
+                        aria-hidden="true"
+                      />
+                    ) : (
+                      websiteSettings?.email
+                    )}
+                  </a>
+                </p>
+              </div>
+            </div>
+          ) : null}
 
           <div className={styles.formWrap}>
             {submitted ? (
@@ -147,7 +194,7 @@ export function Contact() {
               </motion.div>
             ) : (
               <form className={styles.form} onSubmit={handleSubmit} noValidate>
-                <h3>Send a message</h3>
+                <h3>Send us a message</h3>
                 <div className={styles.field}>
                   <label htmlFor="name">Name</label>
                   <input

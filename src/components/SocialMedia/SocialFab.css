@@ -50,6 +50,44 @@
     background 0.25s ease;
 }
 
+.social-fab__button:disabled {
+  cursor: wait;
+}
+
+.social-fab__button-skeleton,
+.social-fab__item--loading {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.social-fab__button-skeleton {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.social-fab__button-skeleton::after,
+.social-fab__item--loading::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
+  animation: social-fab-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes social-fab-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
 .social-fab__button:hover {
   background: #131313;
 
@@ -144,6 +182,11 @@
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
 
   filter: brightness(1.08);
+}
+
+.social-fab__item--loading {
+  background: rgba(255, 255, 255, 0.2);
+  pointer-events: none;
 }
 
 /*

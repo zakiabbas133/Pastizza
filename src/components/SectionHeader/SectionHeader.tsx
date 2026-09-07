@@ -19,14 +19,13 @@ export function SectionHeader({
 }: Props) {
   return (
     <motion.div
-      className={`${styles.header} ${align === "left" ? styles.left : styles.center}`}
+      className={`${video ? styles.header : styles.mb} ${align === "left" ? styles.left : styles.center}`}
       style={
         !video
           ? {
               minHeight: "unset",
               paddingBottom: 0,
-              paddingTop: 0,
-            }
+              paddingTop: 0,            }
           : {}
       }
       initial={{ opacity: 0, y: 20 }}
@@ -46,10 +45,21 @@ export function SectionHeader({
       )}
 
       <div className={styles.content}>
-        {label && <span className="section-label">{label}</span>}
-        <h2 className={styles.title}>{title}</h2>
+        {label && <span className={styles.sectionLabel}>{label}</span>}
+        <h2 className={video ? styles.title : styles.titleDark}>{title}</h2>
         {description && <p className={styles.desc}>{description}</p>}
       </div>
     </motion.div>
+    // <motion.div
+    //   className={`${styles.header} ${align === "left" ? styles.left : styles.center}`}
+    //   initial={{ opacity: 0, y: 20 }}
+    //   whileInView={{ opacity: 1, y: 0 }}
+    //   viewport={{ once: true, margin: "-80px" }}
+    //   transition={{ duration: 0.5 }}
+    // >
+    //   {label && <span className="section-label">{label}</span>}
+    //   <h2 className={styles.title}>{title}</h2>
+    //   {description && <p className={styles.desc}>{description}</p>}
+    // </motion.div>
   );
 }

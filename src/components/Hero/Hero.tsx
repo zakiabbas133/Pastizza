@@ -9,7 +9,8 @@ import { useGetWebsiteSettingsQuery } from "../../services/websiteSettingsApi";
 import { baseUrl } from "../../services/api";
 
 export function Hero() {
-  const { data: websiteSettings = null } = useGetWebsiteSettingsQuery();
+  const { data: websiteSettings = null, isLoading } =
+    useGetWebsiteSettingsQuery();
   let sliderImages: string[] = [];
 
   if (websiteSettings?.sliderImages) {
@@ -19,7 +20,12 @@ export function Hero() {
   return (
     <section className={styles.hero}>
       <div className={styles.bg}>
-        <Swiper
+        {isLoading ? (
+          <div className={styles.loading} role="status" aria-label="Loading hero">
+            <span className={styles.loadingShimmer} aria-hidden="true" />
+          </div>
+        ) : (
+          <Swiper
           modules={[Navigation, Pagination, A11y, Autoplay]}
           spaceBetween={0}
           slidesPerView={1}
@@ -53,7 +59,8 @@ export function Hero() {
               </SwiperSlide>
             );
           })}
-        </Swiper>
+          </Swiper>
+        )}
       </div>
     </section>
   );

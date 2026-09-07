@@ -27,7 +27,6 @@ export function DealCard({ deal, index = 0 }: Props) {
       `I would like to order: *${deal.title}*`,
       `Description: ${deal.description}`,
       dealItems.length > 0 ? `Includes: ${dealItems.join(" • ")}` : "",
-      deal.image ? `Image: ${baseUrl + deal.image}` : "",
       "",
       "Please share the available options and delivery details.",
     ]
@@ -48,13 +47,13 @@ export function DealCard({ deal, index = 0 }: Props) {
       <Link to={"/deal/" + deal?.id}>
         <div className={styles.imageWrap}>
           <img
-            src={deal.image ?? "/logo4.png"}
+            src={baseUrl + deal.image}
             alt={deal.title}
             loading="lazy"
             width={480}
             height={320}
             onError={(e) => {
-              e.currentTarget.src = "/logo4.png";
+              e.currentTarget.src = "/dummyfood3.jpg";
             }}
           />
           {deal.badge && <span className={styles.badge}>{deal.badge}</span>}

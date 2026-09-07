@@ -3,9 +3,53 @@
   color: #e8e0d5;
   padding-top: var(--space-16);
 }
+
+.skeleton {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.skeleton::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.18),
+    transparent
+  );
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.socialSkeleton {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.categorySkeleton,
+.visitSkeleton {
+  width: 72%;
+  height: 1rem;
+  border-radius: 4px;
+}
+
+.visitSkeleton {
+  width: 88%;
+}
 .logoMark {
-  width: 10rem;
-  height: 10rem;
+  width: 16.78rem;
+  height: 14.67rem;
   color: #fff;
   border-radius: 0.5rem;
   display: grid;
@@ -25,6 +69,13 @@
 @media (min-width: 640px) {
   .grid {
     grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .logoMark {
+    width: 100%;
+    height: 100%
   }
 }
 

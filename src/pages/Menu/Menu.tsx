@@ -10,13 +10,15 @@ import type { MenuCategory } from "../../types";
 import styles from "./Menu.module.css";
 import { SectionHeader } from "../../components/SectionHeader/SectionHeader";
 import { useGetCategoriesQuery } from "../../services/categoriesApi";
+import { baseUrl } from "../../services/api";
 
 export function Menu() {
   const [params, setParams] = useSearchParams();
   const { data: menuItems = [], isLoading: menuItemsLoading } =
     useGetMenuItemsQuery();
 
-  const { data: categories = [] } = useGetCategoriesQuery();
+  const { data: categories = [], isLoading: categoriesLoading } =
+    useGetCategoriesQuery();
 
   const initialCat = (params.get("category") as MenuCategory | "all") || "all";
   const [category, setCategory] = useState<string | "all">(initialCat);
@@ -100,24 +102,32 @@ export function Menu() {
           </div>
 
           <div className={styles.tabs} role="tablist" aria-label="Categories">
-            {[...(categories ?? [])]
-              .sort((a, b) => a.displayOrder - b.displayOrder)
-              .map((c) => (
-                <button
-                  key={c.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={category === c.id}
-                  className={`${styles.tab} ${
-                    category === c.label.toLocaleLowerCase()
-                      ? styles.tabActive
-                      : ""
-                  }`}
-                  onClick={() => selectCategory(c.label.toLowerCase())}
-                >
-                  {c.label}
-                </button>
-              ))}
+            {categoriesLoading
+              ? ["one", "two", "three", "four"].map((item) => (
+                  <span
+                    key={item}
+                    className={`${styles.tab} ${styles.categoryTabSkeleton}`}
+                    aria-hidden="true"
+                  />
+                ))
+              : [...(categories ?? [])]
+                  .sort((a, b) => a.displayOrder - b.displayOrder)
+                  .map((c) => (
+                    <button
+                      key={c.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={category === c.id}
+                      className={`${styles.tab} ${
+                        category === c.label.toLocaleLowerCase()
+                          ? styles.tabActive
+                          : ""
+                      }`}
+                      onClick={() => selectCategory(c.label.toLowerCase())}
+                    >
+                      {c.label}
+                    </button>
+                  ))}
           </div>
         </div>
       </section>
@@ -296,12 +306,12 @@ export function Menu() {
                                     className={styles.itemCell}
                                   >
                                     <img
-                                      src={item.image ?? "/logo4.png"}
+                                      src={baseUrl + item.image}
                                       alt=""
                                       width={48}
                                       height={48}
                                       onError={(e) => {
-                                        e.currentTarget.src = "/logo4.png";
+                                        e.currentTarget.src = "/dummyfood3.jpg";
                                       }}
                                     />
                                     <div>

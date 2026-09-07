@@ -28,7 +28,23 @@ export function MenuItemDetail() {
   // );
   // const [qty, setQty] = useState(1);
 
-  if (isLoading) return <div className="page" />;
+  if (isLoading) {
+    return (
+      <div className={`page ${styles.loadingPage}`} role="status" aria-label="Loading menu item">
+        <div className="container">
+          <div className={styles.detailSkeleton} aria-hidden="true">
+            <div className={styles.detailSkeletonImage} />
+            <div className={styles.detailSkeletonInfo}>
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
   if (!item) return <Navigate to="/menu" replace />;
 
   const related = menuItems
@@ -58,10 +74,10 @@ export function MenuItemDetail() {
             transition={{ duration: 0.5 }}
           >
             <img
-              src={baseUrl + (item.image ?? "")}
+              src={baseUrl + item.image}
               alt={item?.name}
               onError={(e) => {
-                e.currentTarget.src = "/logo4.png";
+                e.currentTarget.src = "/dummyfood3.jpg";
               }}
             />
             <div className={styles.imageBadges}>
@@ -135,7 +151,7 @@ export function MenuItemDetail() {
                     {item.variants.map((v) => (
                       <div key={v.name} className={styles.variantBtn}>
                         <span>{v.name}</span>
-                        <strong>Rs. {v.price}0/-</strong>
+                        <strong>Rs. {v.price}/-</strong>
                       </div>
                     ))}
                   </>

@@ -3,6 +3,8 @@ import { Link, NavLink } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import styles from "./Navbar.module.css";
+import { useGetWebsiteSettingsQuery } from "../../services/websiteSettingsApi";
+import { baseUrl } from "../../services/api";
 
 const links = [
   { to: "/", label: "Overview" },
@@ -15,6 +17,8 @@ const links = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { data: websiteSettings = null, isLoading: websiteSettingsLoading } =
+    useGetWebsiteSettingsQuery();
 
   // Detect page scroll
   useEffect(() => {
@@ -90,11 +94,23 @@ export function Navbar() {
       <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
         <div className={`container-wide ${styles.inner}`}>
           {/* Logo */}
-          <Link to="/" className={styles.logo} aria-label="Pastizza home">
-            <img className={styles.logoMark} src="/logo4.png" />
-
-            <span className={styles.logoText}>PASTIZZA</span>
-          </Link>
+          {websiteSettingsLoading ? (
+            <div className={styles.logo}>
+              <div className={`${styles.skeleton}`} />
+              <span className={styles.logoText}>PASTIZZA</span>
+            </div>
+          ) : (
+            <Link to="/" className={styles.logo} aria-label="Pastizza home">
+              <img
+                className={styles.logoMark}
+                src={baseUrl + websiteSettings?.logo}
+                onError={(e) => {
+                  e.currentTarget.src = "/logo4.png";
+                }}
+              />
+              <span className={styles.logoText}>PASTIZZA</span>
+            </Link>
+          )}
 
           {/* Desktop Navigation */}
           <nav className={styles.desktopNav} aria-label="Primary navigation">

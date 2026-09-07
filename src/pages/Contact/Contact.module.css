@@ -13,6 +13,11 @@
   gap: var(--space-10);
 }
 
+.block {
+  display: block;
+  gap: var(--space-10);
+}
+
 @media (min-width: 900px) {
   .grid {
     grid-template-columns: 1fr 1.1fr;
@@ -27,6 +32,74 @@
   padding: var(--space-6);
   margin-bottom: var(--space-5);
   box-shadow: var(--shadow-sm);
+}
+
+.skeletonCard {
+  min-height: 250px;
+}
+
+.skeletonLine,
+.skeletonInline,
+.skeletonButton {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--color-border);
+}
+
+.skeletonLine::after,
+.skeletonInline::after,
+.skeletonButton::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+  animation: contactShimmer 1.5s ease-in-out infinite;
+}
+
+.skeletonTitle {
+  width: 42%;
+  height: 1.35rem;
+  margin-bottom: var(--space-5);
+  border-radius: 4px;
+}
+
+.skeletonText {
+  width: 86%;
+  height: 0.9rem;
+  margin-bottom: var(--space-3);
+  border-radius: 4px;
+}
+
+.skeletonTextShort {
+  width: 58%;
+  height: 0.9rem;
+  border-radius: 4px;
+}
+
+.skeletonActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: var(--space-5);
+}
+
+.skeletonButton {
+  width: 5.5rem;
+  height: 2rem;
+  border-radius: var(--radius-full);
+}
+
+.skeletonInline {
+  width: 10rem;
+  height: 0.9rem;
+  border-radius: 4px;
+}
+
+@keyframes contactShimmer {
+  to {
+    transform: translateX(100%);
+  }
 }
 
 .locCard h3 {
@@ -121,8 +194,8 @@
   border-color: var(--color-primary);
 }
 
-.field input[aria-invalid='true'],
-.field textarea[aria-invalid='true'] {
+.field input[aria-invalid="true"],
+.field textarea[aria-invalid="true"] {
   border-color: var(--color-error);
 }
 

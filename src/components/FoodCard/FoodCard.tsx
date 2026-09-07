@@ -29,13 +29,13 @@ export function FoodCard({ item, index = 0 }: Props) {
       <Link to={`/menu/${item.id}`} className={styles.link}>
         <div className={styles.imageWrap}>
           <img
-            src={baseUrl + (item.image ?? "")}
+            src={baseUrl + item.image}
             alt={item.name}
             loading="lazy"
             width={400}
             height={300}
             onError={(e) => {
-              e.currentTarget.src = "/logo4.png";
+              e.currentTarget.src = "/dummyfood3.jpg";
             }}
           />
           {item.popular && <span className={styles.badge}>Popular</span>}

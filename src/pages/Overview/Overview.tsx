@@ -422,7 +422,7 @@ export function Overview() {
                         alt={cat.label}
                         loading="lazy"
                         onError={(e) => {
-                          e.currentTarget.src = "/logo4.png";
+                          e.currentTarget.src = "/dummyfood3.jpg";
                         }}
                       />
                       <div className={styles.catOverlay}>

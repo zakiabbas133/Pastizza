@@ -62,6 +62,30 @@
   scrollbar-width: none;
 }
 
+.categoryTabSkeleton {
+  position: relative;
+  min-width: 5rem;
+  overflow: hidden;
+  color: transparent;
+  background: var(--color-border);
+  pointer-events: none;
+}
+
+.categoryTabSkeleton::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+  animation: categoryShimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes categoryShimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
 .tabs::-webkit-scrollbar {
   display: none;
 }

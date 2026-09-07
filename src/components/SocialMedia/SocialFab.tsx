@@ -8,7 +8,7 @@ import { useGetWebsiteSettingsQuery } from "../../services/websiteSettingsApi";
 
 const SocialFab = () => {
   const { pathname } = useLocation();
-  const { data: websiteSettings = null } = useGetWebsiteSettingsQuery();
+  const { data: websiteSettings = null, isLoading } = useGetWebsiteSettingsQuery();
 
   const SOCIAL_LINKS = [
     {
@@ -145,49 +145,48 @@ const SocialFab = () => {
                   ease: [0.22, 1, 0.36, 1],
                 }}
               >
-                {SOCIAL_LINKS.map((social, index) => (
-                  <motion.a
-                    key={social.name}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.name}
-                    className={`social-fab__item ${social.className}`}
-                    initial={{
-                      opacity: 0,
-                      scale: 0.5,
-                      y: 15,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      scale: 1,
-                      y: 0,
-                    }}
-                    exit={{
-                      opacity: 0,
-                      scale: 0.5,
-                      y: 15,
-                    }}
-                    transition={{
-                      delay: index * 0.06,
-                      duration: 0.25,
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 20,
-                    }}
-                    whileHover={{
-                      scale: 1.12,
-                      x: -4,
-                    }}
-                    whileTap={{
-                      scale: 0.92,
-                    }}
-                  >
-                    <img src={social.icon} alt="" aria-hidden="true" />
-
-                    <span className="social-fab__tooltip">{social.name}</span>
-                  </motion.a>
-                ))}
+                {isLoading
+                  ? ["one", "two", "three"].map((item, index) => (
+                      <motion.span
+                        key={item}
+                        className="social-fab__item social-fab__item--loading"
+                        aria-hidden="true"
+                        initial={{ opacity: 0, scale: 0.5, y: 15 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        transition={{
+                          delay: index * 0.06,
+                          duration: 0.25,
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 20,
+                        }}
+                      />
+                    ))
+                  : SOCIAL_LINKS.map((social, index) => (
+                      <motion.a
+                        key={social.name}
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={social.name}
+                        className={`social-fab__item ${social.className}`}
+                        initial={{ opacity: 0, scale: 0.5, y: 15 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.5, y: 15 }}
+                        transition={{
+                          delay: index * 0.06,
+                          duration: 0.25,
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 20,
+                        }}
+                        whileHover={{ scale: 1.12, x: -4 }}
+                        whileTap={{ scale: 0.92 }}
+                      >
+                        <img src={social.icon} alt="" aria-hidden="true" />
+                        <span className="social-fab__tooltip">{social.name}</span>
+                      </motion.a>
+                    ))}
               </motion.div>
             )}
           </AnimatePresence>
@@ -195,6 +194,8 @@ const SocialFab = () => {
           <motion.button
             type="button"
             className="social-fab__button"
+            disabled={isLoading}
+            aria-busy={isLoading}
             aria-label={
               open ? "Close social media links" : "Open social media links"
             }
@@ -213,7 +214,9 @@ const SocialFab = () => {
               duration: 0.25,
             }}
           >
-            {open ? (
+            {isLoading ? (
+              <span className="social-fab__button-skeleton" aria-hidden="true" />
+            ) : open ? (
               <X size={30} color="#fff" strokeWidth={2.4} />
             ) : (
               <img width={30} src="/social-media.png" />
