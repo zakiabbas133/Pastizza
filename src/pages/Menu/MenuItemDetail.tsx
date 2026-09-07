@@ -30,7 +30,7 @@ export function MenuItemDetail() {
 
   if (isLoading) {
     return (
-      <div className={`page ${styles.loadingPage}`} role="status" aria-label="Loading menu item">
+      <div className={`${styles.loadingPage}`} role="status" aria-label="Loading menu item">
         <div className="container">
           <div className={styles.detailSkeleton} aria-hidden="true">
             <div className={styles.detailSkeletonImage} />

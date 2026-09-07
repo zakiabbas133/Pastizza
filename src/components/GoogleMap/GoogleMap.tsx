@@ -9,6 +9,9 @@ const GoogleMap = ({ address }: GoogleMapProps) => {
     address,
   )}&output=embed`;
 
+  console.log(mapUrl);
+  
+
   return (
     <div className="google-map">
       <iframe
@@ -17,6 +20,7 @@ const GoogleMap = ({ address }: GoogleMapProps) => {
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
         allowFullScreen
+        onClick={() => alert('hi')}
       />
     </div>
   );

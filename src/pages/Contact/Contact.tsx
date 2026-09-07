@@ -272,7 +272,7 @@ export function Contact() {
             role="img"
             aria-label="Map placeholder"
           >
-            <GoogleMap address="PASTIZZA, Islamabad, Pakistan" />
+            <GoogleMap address="Pastizza, Islamabad, Pakistan" />
           </div>
         </div>
       </section>

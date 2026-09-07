@@ -3,14 +3,16 @@ import styles from "./Footer.module.css";
 import { useGetWebsiteSettingsQuery } from "../../services/websiteSettingsApi";
 import { baseUrl } from "../../services/api";
 import { useGetCategoriesQuery } from "../../services/categoriesApi";
+import { useGetLocationsQuery } from "../../services/locationsApi";
 
 export function Footer() {
-  const {
-    data: websiteSettings = null,
-    isLoading: websiteSettingsLoading,
-  } = useGetWebsiteSettingsQuery();
+  const { data: websiteSettings = null, isLoading: websiteSettingsLoading } =
+    useGetWebsiteSettingsQuery();
   const { data: cats = [], isLoading: categoriesLoading } =
     useGetCategoriesQuery();
+
+  const { data: locationsData = [], isLoading: locationsLoading } =
+    useGetLocationsQuery();
 
   return (
     <footer
@@ -21,7 +23,10 @@ export function Footer() {
         <div className={styles.brand}>
           <div className={styles.logo}>
             {websiteSettingsLoading ? (
-              <div className={`${styles.logoMark} ${styles.skeleton}`} aria-hidden="true" />
+              <div
+                className={`${styles.logoMark} ${styles.skeleton}`}
+                aria-hidden="true"
+              />
             ) : (
               <img
                 className={styles.logoMark}
@@ -39,14 +44,28 @@ export function Footer() {
           <div className={styles.social}>
             {websiteSettingsLoading ? (
               ["instagram", "facebook", "whatsapp"].map((social) => (
-                <span className={`${styles.socialSkeleton} ${styles.skeleton}`} key={social} aria-hidden="true" />
+                <span
+                  className={`${styles.socialSkeleton} ${styles.skeleton}`}
+                  key={social}
+                  aria-hidden="true"
+                />
               ))
             ) : (
               <>
-                <a href={websiteSettings?.instagramUrl} aria-label="Instagram" target="_blank" rel="noreferrer">
+                <a
+                  href={websiteSettings?.instagramUrl}
+                  aria-label="Instagram"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <img src="/instagram.png" alt="" aria-hidden="true" />
                 </a>
-                <a href={websiteSettings?.facebookUrl} aria-label="Facebook" target="_blank" rel="noreferrer">
+                <a
+                  href={websiteSettings?.facebookUrl}
+                  aria-label="Facebook"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <img src="/facebook.png" alt="" aria-hidden="true" />
                 </a>
                 <a
@@ -89,43 +108,61 @@ export function Footer() {
             {categoriesLoading
               ? ["one", "two", "three", "four"].map((item) => (
                   <li key={item}>
-                    <span className={`${styles.categorySkeleton} ${styles.skeleton}`} aria-hidden="true" />
+                    <span
+                      className={`${styles.categorySkeleton} ${styles.skeleton}`}
+                      aria-hidden="true"
+                    />
                   </li>
                 ))
               : cats
-              .filter((item) => item.description != "all")
-              .map((cat, index) => {
-                return (
-                  <li key={index}>
-                    <Link to={`/menu?category=${cat.label.toLowerCase()}`}>
-                      {cat.label}
-                    </Link>
-                  </li>
-                );
-              })}
+                  .filter((item) => item.description != "all")
+                  .map((cat, index) => {
+                    return (
+                      <li key={index}>
+                        <Link to={`/menu?category=${cat.label.toLowerCase()}`}>
+                          {cat.label}
+                        </Link>
+                      </li>
+                    );
+                  })}
           </ul>
         </div>
 
         <div>
           <h4 className={styles.heading}>Visit</h4>
           <ul className={styles.links}>
-            <li>Riverside — 42 Ember Lane</li>
-            <li>Oak & Main — 118 Main St</li>
+            {locationsLoading ? (
+              <li
+                className={`${styles.visitSkeleton} ${styles.skeleton}`}
+                aria-hidden="true"
+              />
+            ) : locationsData.length != 0 ? (
+              <li>{locationsData[0].address}</li>
+            ) : (
+              <></>
+            )}
             {websiteSettingsLoading ? (
               ["phone", "email"].map((item) => (
                 <li key={item}>
-                  <span className={`${styles.visitSkeleton} ${styles.skeleton}`} aria-hidden="true" />
+                  <span
+                    className={`${styles.visitSkeleton} ${styles.skeleton}`}
+                    aria-hidden="true"
+                  />
                 </li>
               ))
             ) : (
               <>
                 <li>
-                  <a href={`tel:+${websiteSettings?.whatsappUrl?.split("/").pop()}`}>
+                  <a
+                    href={`tel:+${websiteSettings?.whatsappUrl?.split("/").pop()}`}
+                  >
                     +{websiteSettings?.whatsappUrl?.split("/").pop()}
                   </a>
                 </li>
                 <li>
-                  <a href={`mailto:${websiteSettings?.email}`}>{websiteSettings?.email}</a>
+                  <a href={`mailto:${websiteSettings?.email}`}>
+                    {websiteSettings?.email}
+                  </a>
                 </li>
               </>
             )}
