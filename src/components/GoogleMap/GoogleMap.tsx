@@ -7,10 +7,7 @@ interface GoogleMapProps {
 const GoogleMap = ({ address }: GoogleMapProps) => {
   const mapUrl = `https://www.google.com/maps?q=${encodeURIComponent(
     address,
-  )}&output=embed`;
-
-  console.log(mapUrl);
-  
+  )}&output=embed`;  
 
   return (
     <div className="google-map">
