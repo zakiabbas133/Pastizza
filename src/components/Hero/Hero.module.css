@@ -109,10 +109,21 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
+@media (max-width: 768px) {
+  .loading {
+    min-height: 25vh;
+  }
+}
+
+
 @media (max-width: 640px) {
   .hero {
     /* min-height: 85vh; */
     align-items: center;
     padding-bottom: var(--space-12);
+  }
+
+  .loading {
+    min-height: 20vh;
   }
 }

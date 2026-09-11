@@ -1,27 +1,27 @@
-import { motion } from 'framer-motion';
-import { SectionHeader } from '../../components/SectionHeader/SectionHeader';
-import styles from './About.module.css';
+import { motion } from "framer-motion";
+import { SectionHeader } from "../../components/SectionHeader/SectionHeader";
+import styles from "./About.module.css";
 
 const timeline = [
   {
-    year: '2018',
-    title: 'A single oven',
-    text: 'Pastizza began as a tiny counter with one wood-fired oven and a handful of recipes.',
+    year: "2018",
+    title: "A single oven",
+    text: "Pastizza began as a tiny counter with one wood-fired oven and a handful of recipes.",
   },
   {
-    year: '2020',
-    title: 'Riverside opens',
-    text: 'We found a permanent home on Ember Lane and expanded the menu beyond pizza.',
+    year: "2020",
+    title: "Riverside opens",
+    text: "We found a permanent home on Ember Lane and expanded the menu beyond pizza.",
   },
   {
-    year: '2023',
-    title: 'Oak & Main',
-    text: 'A second location in the Oak Quarter brought more fire and more tables.',
+    year: "2023",
+    title: "Oak & Main",
+    text: "A second location in the Oak Quarter brought more fire and more tables.",
   },
   {
-    year: 'Today',
-    title: 'Still learning',
-    text: 'We keep refining dough, sauce, and technique — always chasing a better bite.',
+    year: "Today",
+    title: "Still learning",
+    text: "We keep refining dough, sauce, and technique — always chasing a better bite.",
   },
 ];
 
@@ -56,9 +56,10 @@ export function About() {
             <span className="section-label">Our story</span>
             <h2>Born from heat and patience</h2>
             <p>
-              Pastizza is Italian for furnace — the heart of our kitchen. We built
-              this place around a single idea: that the best food is shaped by
-              fire, fermentation, and the people who cook it every day.
+              Pastizza is Italian for furnace — the heart of our kitchen. We
+              built this place around a single idea: that the best food is
+              shaped by fire, fermentation, and the people who cook it every
+              day.
             </p>
             <p>
               Our dough rests for days. Our ragu simmers for hours. Our pizzas
@@ -74,23 +75,24 @@ export function About() {
           <SectionHeader
             label="How we cook"
             title="What we believe"
+            video={false}
           />
           <div className={styles.philoGrid}>
             {[
               {
-                title: 'Fresh ingredients',
-                text: 'Seasonal produce, quality proteins, and flour we trust. We source carefully and cook simply.',
-                img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80',
+                title: "Fresh ingredients",
+                text: "Seasonal produce, quality proteins, and flour we trust. We source carefully and cook simply.",
+                img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80",
               },
               {
-                title: 'Fire as a tool',
-                text: 'Wood fire is not a gimmick. It transforms dough, vegetables, and proteins in ways a steel oven cannot.',
-                img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80',
+                title: "Fire as a tool",
+                text: "Wood fire is not a gimmick. It transforms dough, vegetables, and proteins in ways a steel oven cannot.",
+                img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
               },
               {
-                title: 'Atmosphere',
-                text: 'Warm light, honest materials, and a room that invites you to stay a little longer.',
-                img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80',
+                title: "Atmosphere",
+                text: "Warm light, honest materials, and a room that invites you to stay a little longer.",
+                img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80",
               },
             ].map((item, i) => (
               <motion.article
@@ -112,7 +114,11 @@ export function About() {
 
       <section className={`section ${styles.timeline}`}>
         <div className="container">
-          <SectionHeader label="Milestones" title="A short history" />
+          <SectionHeader
+            label="Milestones"
+            title="A short history"
+            video={false}
+          />
           <div className={styles.tl}>
             {timeline.map((t, i) => (
               <motion.div

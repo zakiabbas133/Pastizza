@@ -1,8 +1,8 @@
 .social-fab {
   position: fixed;
 
-  left: 28px;
-  bottom: 28px;
+  left: 0;
+  bottom: 0;
 
   z-index: 9998;
 
@@ -20,11 +20,12 @@
 */
 
 .social-fab__button {
-  position: relative;
-
-  width: 52px;
-  height: 52px;
-
+  position: fixed;
+  left: 18.5px;
+  bottom: 18.5px;
+  z-index: 9999;
+  width: 46px;
+  height: 46px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -108,7 +109,7 @@
   position: absolute;
   inset: -5px;
 
-  border: 1px solid rgba(0, 0, 0);
+  border: 1px solid rgb(122, 103, 37);
 
   border-radius: 50%;
 
@@ -160,7 +161,8 @@
 
   width: 4rem;
   height: 4rem;
-
+  left: 2.6rem;
+  bottom: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -240,8 +242,6 @@
   transform: translateY(-50%) translateX(0);
 }
 
-
-
 /*
 |--------------------------------------------------------------------------
 | Reduced motion
@@ -251,5 +251,18 @@
 @media (prefers-reduced-motion: reduce) {
   .social-fab__button::before {
     animation: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .social-fab__item {
+    width: 3rem;
+    height: 3rem;
+    bottom: 0.5rem;
+  }
+
+  .social-fab__button {
+    width: 3rem;
+    height: 3rem;
   }
 }

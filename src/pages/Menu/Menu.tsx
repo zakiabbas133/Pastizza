@@ -82,8 +82,8 @@ export function Menu() {
           <div className={styles.searchWrap}>
             <Search size={18} className={styles.searchIcon} aria-hidden />
             <input
-              type="search"
-              placeholder="Search dishes, ingredients, tags…"
+              type="text"
+              placeholder="Search dishes…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               aria-label="Search menu"

@@ -29,7 +29,7 @@ export function Hero() {
           modules={[Navigation, Pagination, A11y, Autoplay]}
           spaceBetween={0}
           slidesPerView={1}
-          loop
+          loop={sliderImages.length > 1}
           speed={800}
           autoplay={{
             delay: 3000,

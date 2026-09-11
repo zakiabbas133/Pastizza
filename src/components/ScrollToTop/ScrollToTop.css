@@ -1,14 +1,10 @@
 .scroll-to-top {
   position: fixed;
-
   right: 28px;
   bottom: 28px;
-
   z-index: 9999;
-
   width: 52px;
   height: 52px;
-
   display: flex;
   align-items: center;
   justify-content: center;

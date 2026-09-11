@@ -235,7 +235,7 @@ export function Overview() {
                 modules={[Navigation, Pagination, A11y]}
                 spaceBetween={24}
                 slidesPerView={3}
-                loop={deals.length > 1}
+                loop={deals.length > 3}
                 navigation
                 pagination={{ clickable: true, dynamicBullets: true }}
                 breakpoints={{

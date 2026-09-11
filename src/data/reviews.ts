@@ -1,87 +1,88 @@
-import type { Review } from '../types';
+import type { Review } from "../types";
 
 export const reviews: Review[] = [
   {
-    id: 'r1',
-    name: 'Elena M.',
+    id: "r1",
+    name: "Hamza K.",
     rating: 5,
     comment:
-      'The Margherita is a masterclass in simplicity. Blistered crust, perfect balance of tomato and cheese. We come every week.',
-    date: '2026-07-12',
+      "Ordered the Supreme Chicken Tikka pizza and honestly loved it. The crust was soft, toppings were generous, and it arrived hot. Definitely ordering again.",
+    date: "2026-08-18",
     verified: true,
   },
   {
-    id: 'r2',
-    name: 'Marcus T.',
+    id: "r2",
+    name: "Ayesha R.",
     rating: 5,
     comment:
-      'Truffle Forest pizza is worth every penny. The soft egg on top is genius. Atmosphere is warm and the staff actually care.',
-    date: '2026-06-28',
+      "The Red Sauce Pasta was really good, especially for the price. The sauce had a nice tangy flavor and the portion was enough for a proper meal.",
+    date: "2026-08-11",
     verified: true,
   },
   {
-    id: 'r3',
-    name: 'Sofia R.',
+    id: "r3",
+    name: "Usman A.",
     rating: 4,
     comment:
-      'Lobster tagliatelle was rich and elegant. Only reason for four stars is that we wanted a larger portion — we finished it in minutes.',
-    date: '2026-07-02',
+      "Tried the Beef Stacker for the first time and it was surprisingly filling. The patties and cheese were great. Would have liked a little more sauce, but overall very good.",
+    date: "2026-08-05",
     verified: true,
   },
   {
-    id: 'r4',
-    name: 'James K.',
+    id: "r4",
+    name: "Maham S.",
     rating: 5,
     comment:
-      'Best smash burger I’ve had outside of a dedicated burger spot. The Ember Smash with truffle fries is my go-to order.',
-    date: '2026-05-19',
+      "Fish Pizza was better than I expected. Good amount of topping and the cheese was nicely melted. We ordered it for the family and everyone enjoyed it.",
+    date: "2026-07-29",
     verified: true,
   },
   {
-    id: 'r5',
-    name: 'Aisha P.',
+    id: "r5",
+    name: "Bilal H.",
     rating: 5,
     comment:
-      'Celebrated our anniversary here. The room feels intimate, the food is thoughtful, and the tiramisu sealed the night.',
-    date: '2026-08-01',
+      "The pizza was fresh, hot and packed really well. We got a large for the family and the portion was more than enough. Good taste and reasonable prices.",
+    date: "2026-07-21",
     verified: true,
   },
   {
-    id: 'r6',
-    name: 'Daniel W.',
+    id: "r6",
+    name: "Sana M.",
     rating: 4,
     comment:
-      'Solid wood-fired pizza and a great selection of non-alcoholic drinks. The Blood Orange Spritz is refreshing after a long day.',
-    date: '2026-06-10',
-  },
-  {
-    id: 'r7',
-    name: 'Priya S.',
-    rating: 5,
-    comment:
-      'Took the team for a late dinner. Everything arrived hot, the deals are fair, and the space looks beautiful at night.',
-    date: '2026-07-22',
+      "Really enjoyed the pasta. Flavor was on point and it did not feel too heavy. Delivery took a little longer than expected, but the food was still warm when it arrived.",
+    date: "2026-07-15",
     verified: true,
   },
   {
-    id: 'r8',
-    name: 'Chris L.',
+    id: "r7",
+    name: "Fahad R.",
     rating: 5,
     comment:
-      'Prosciutto & Fig pizza is a revelation. Sweet, salty, creamy — perfectly balanced. Already planning the next visit.',
-    date: '2026-08-08',
+      "Ordered the family deal for a get-together and it was a great choice. Plenty of food and everyone liked it. The deal makes much more sense than ordering everything separately.",
+    date: "2026-07-08",
+    verified: true,
+  },
+  {
+    id: "r8",
+    name: "Iqra N.",
+    rating: 5,
+    comment:
+      "Beef Stacker is definitely worth trying. The burger was fresh and filling, and the overall quality was better than I expected at this price. Will order again.",
+    date: "2026-06-30",
     verified: true,
   },
 ];
 
 export const reviewStats = {
-  average: 4.8,
-  total: 128,
+  average: 4.6,
+  total: 147,
   breakdown: [
-    { stars: 5, count: 98 },
-    { stars: 4, count: 22 },
-    { stars: 3, count: 5 },
-    { stars: 2, count: 2 },
-    { stars: 1, count: 1 },
+    { stars: 5, count: 91 },
+    { stars: 4, count: 38 },
+    { stars: 3, count: 12 },
+    { stars: 2, count: 4 },
+    { stars: 1, count: 2 },
   ],
 };

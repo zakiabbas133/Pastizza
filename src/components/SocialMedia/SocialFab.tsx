@@ -8,7 +8,8 @@ import { useGetWebsiteSettingsQuery } from "../../services/websiteSettingsApi";
 
 const SocialFab = () => {
   const { pathname } = useLocation();
-  const { data: websiteSettings = null, isLoading } = useGetWebsiteSettingsQuery();
+  const { data: websiteSettings = null, isLoading } =
+    useGetWebsiteSettingsQuery();
 
   const SOCIAL_LINKS = [
     {
@@ -184,7 +185,9 @@ const SocialFab = () => {
                         whileTap={{ scale: 0.92 }}
                       >
                         <img src={social.icon} alt="" aria-hidden="true" />
-                        <span className="social-fab__tooltip">{social.name}</span>
+                        <span className="social-fab__tooltip">
+                          {social.name}
+                        </span>
                       </motion.a>
                     ))}
               </motion.div>
@@ -215,11 +218,14 @@ const SocialFab = () => {
             }}
           >
             {isLoading ? (
-              <span className="social-fab__button-skeleton" aria-hidden="true" />
+              <span
+                className="social-fab__button-skeleton"
+                aria-hidden="true"
+              />
             ) : open ? (
               <X size={30} color="#fff" strokeWidth={2.4} />
             ) : (
-              <img width={30} src="/social-media.png" />
+              <img width={40} src="/social-media.png" />
             )}
           </motion.button>
         </motion.div>
