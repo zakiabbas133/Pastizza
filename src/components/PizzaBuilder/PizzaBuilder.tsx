@@ -7,19 +7,19 @@ const pizzaSizes = [
     id: "small",
     name: "Small",
     description: "8 inch",
-    price: 650,
+    price: 999,
   },
   {
     id: "medium",
     name: "Medium",
     description: "10 inch",
-    price: 950,
+    price: 1599,
   },
   {
     id: "large",
     name: "Large",
     description: "12 inch",
-    price: 1250,
+    price: 2299,
   },
 ];
 
@@ -467,7 +467,7 @@ Thank you!`;
                   <span>{item.name}</span>
 
                   <span>
-                    {item.price === 0 ? "Included" : `+ Rs. ${item.price}`}
+                    {item.price === 0 ? "Free" : `+ Rs. ${item.price}`}
                   </span>
                 </button>
               ))}
@@ -512,7 +512,7 @@ Thank you!`;
 
                     <span className="pizza-topping-card__price">
                       {topping.price === 0
-                        ? "Included"
+                        ? "Free"
                         : `+ Rs. ${topping.price}`}
                     </span>
 
