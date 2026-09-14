@@ -71,13 +71,17 @@
 
 .pizza-preview {
   position: sticky;
-  top: 30px;
+  top: 90px;
+  width: 100%;
+  min-width: 0;
 }
 
 .pizza-preview__stage {
   position: relative;
   display: flex;
-  min-height: 530px;
+  width: 100%;
+  min-width: 0;
+  min-height: 400px;
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -89,7 +93,6 @@
 .pizza-preview__stage::before,
 .pizza-preview__stage::after {
   position: absolute;
-  border: 1px solid rgba(190, 147, 65, 0.13);
   border-radius: 50%;
   content: "";
   pointer-events: none;
@@ -112,10 +115,17 @@
 .pizza-preview__pizza {
   position: relative;
   z-index: 1;
-  width: min(78%, 390px);
-  aspect-ratio: 1;
+
+  /* Safari/iOS-friendly sizing */
+  width: 78%;
+  max-width: 300px;
+  min-width: 0;
+  aspect-ratio: 1 / 1;
+  flex: 0 1 auto;
+
   padding: 23px;
   border-radius: 50%;
+
   background:
     repeating-radial-gradient(
       circle at 35% 30%,
@@ -125,16 +135,19 @@
       transparent 8px
     ),
     linear-gradient(145deg, #d9954d, #bc702d 60%, #9e541f);
+
   box-shadow:
     0 0 0 7px #e8b16c,
     0 0 0 13px #bd722e,
     0 22px 45px rgba(114, 65, 20, 0.22);
+
   transition:
     transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
     width 0.5s ease,
     padding 0.4s ease,
     box-shadow 0.4s ease,
     background 0.4s ease;
+
   animation: pizzaFloat 6s ease-in-out infinite;
 }
 
@@ -318,7 +331,8 @@
 ======================================== */
 
 .pizza-preview__details {
-  padding: 25px 5px 0;
+  /* padding: 25px 5px 0; */
+  padding-top: 1rem;
   text-align: center;
 }
 

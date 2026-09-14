@@ -223,11 +223,11 @@ const PizzaBuilder = () => {
   const [quantity, setQuantity] = useState(1);
 
   const size =
-    pizzaSizes.find((item) => item.id === selectedSize) ?? pizzaSizes[0];
+    pizzaSizes.find((item) => item.id === selectedSize) || pizzaSizes[0];
 
-  const sauce = sauces.find((item) => item.id === selectedSauce) ?? sauces[0];
+  const sauce = sauces.find((item) => item.id === selectedSauce) || sauces[0];
 
-  const crust = crusts.find((item) => item.id === selectedCrust) ?? crusts[0];
+  const crust = crusts.find((item) => item.id === selectedCrust) || crusts[0];
 
   const selectedToppingObjects = toppings.filter((topping) =>
     selectedToppings.includes(topping.id),
@@ -239,11 +239,8 @@ const PizzaBuilder = () => {
       0,
     );
 
-    const singlePizzaPrice =
-      size.price + crust.price + sauce.price + toppingsPrice;
-
-    return singlePizzaPrice * quantity;
-  }, [size, crust, sauce, selectedToppingObjects, quantity]);
+    return (size.price + sauce.price + crust.price + toppingsPrice) * quantity;
+  }, [size, sauce, crust, selectedToppingObjects, quantity]);
 
   const toggleTopping = (toppingId: string) => {
     setSelectedToppings((previous) =>
@@ -256,7 +253,7 @@ const PizzaBuilder = () => {
   const handleSelectAll = () => {
     const onlyChickenSelected =
       selectedToppingObjects.length === 1 &&
-      selectedToppingObjects.some((topping) => topping.id === "chicken");
+      selectedToppingObjects.some((item) => item.id === "chicken");
 
     setSelectedToppings(
       onlyChickenSelected ? toppings.map((topping) => topping.id) : ["chicken"],
@@ -272,9 +269,10 @@ const PizzaBuilder = () => {
     quantity: number;
     totalPrice: number;
   }) => {
-    const toppingsMessage = order.toppings
-      .map((topping) => `• ${topping.name}`)
-      .join("\n");
+    const toppingsText =
+      order.toppings.length > 0
+        ? order.toppings.map((topping) => `• ${topping.name}`).join("\n")
+        : "• None";
 
     return `*New Custom Pizza Order*
 
@@ -288,7 +286,7 @@ I'd like to order a *Build Your Own Pizza*:
 *Sauce:* ${order.sauce}
 
 *Toppings:*
-${toppingsMessage}
+${toppingsText}
 
 *Pizza Quantity:* ${order.quantity}
 
@@ -321,6 +319,10 @@ Thank you!`;
     window.open(whatsappUrl, "_blank");
   };
 
+  const handleOrderNow = () => {
+    handleWhatsAppOrder();
+  };
+
   return (
     <div className="pizza-builder">
       <div className="pizza-builder__header">
@@ -345,12 +347,14 @@ Thank you!`;
 
                     const rotation = toppingRotations[index];
 
-                    if (!position) return null;
+                    if (!position) {
+                      return null;
+                    }
 
                     return (
                       <img
                         key={topping.id}
-                        className={`pizza-topping pizza-topping--${topping.id}`}
+                        className="pizza-topping"
                         src={topping.emoji}
                         alt={topping.name}
                         style={{
@@ -369,9 +373,13 @@ Thank you!`;
           <div className="pizza-preview__details">
             <h2>Your Creation</h2>
 
-            <p>
-              {size.name} • {crust.name} • {sauce.name}
-            </p>
+            <div className="pizza-preview__summary">
+              <span>{size.name}</span>
+              <span> • </span>
+              <span>{crust.name}</span>
+              <span> • </span>
+              <span>{sauce.name}</span>
+            </div>
 
             <div className="pizza-preview__selected">
               {selectedToppingObjects.length > 0
@@ -385,31 +393,27 @@ Thank you!`;
 
         {/* Controls */}
         <div className="pizza-controls">
-          {/* SIZE */}
           <section className="pizza-section">
             <h3>01. Choose your size</h3>
 
             <div className="pizza-size-grid">
               {pizzaSizes.map((item) => (
                 <button
-                  type="button"
                   key={item.id}
+                  type="button"
                   className={`pizza-size ${
                     selectedSize === item.id ? "pizza-size--active" : ""
                   }`}
                   onClick={() => setSelectedSize(item.id)}
                 >
                   <strong>{item.name}</strong>
-
                   <span>{item.description}</span>
-
                   <b>Rs. {item.price.toLocaleString()}</b>
                 </button>
               ))}
             </div>
           </section>
 
-          {/* CRUST */}
           <section className="pizza-section">
             <div className="pizza-section__header">
               <h3>02. Choose your crust</h3>
@@ -421,8 +425,8 @@ Thank you!`;
 
                 return (
                   <button
-                    type="button"
                     key={item.id}
+                    type="button"
                     className={`pizza-option ${
                       isSelected ? "pizza-option--selected" : ""
                     }`}
@@ -445,15 +449,14 @@ Thank you!`;
             </div>
           </section>
 
-          {/* SAUCE */}
           <section className="pizza-section">
             <h3>03. Choose your sauce</h3>
 
             <div className="pizza-option-list">
               {sauces.map((item) => (
                 <button
-                  type="button"
                   key={item.id}
+                  type="button"
                   className={`pizza-option pizza-option--sauce ${
                     selectedSauce === item.id ? "pizza-option--active" : ""
                   }`}
@@ -469,7 +472,6 @@ Thank you!`;
             </div>
           </section>
 
-          {/* TOPPINGS */}
           <section className="pizza-section">
             <div className="pizza-section__header">
               <h3>04. Add your toppings</h3>
@@ -480,9 +482,7 @@ Thank you!`;
                 onClick={handleSelectAll}
               >
                 {selectedToppingObjects.length === 1 &&
-                selectedToppingObjects.some(
-                  (topping) => topping.id === "chicken",
-                )
+                selectedToppingObjects.some((item) => item.id === "chicken")
                   ? "Select All Toppings"
                   : "Remove All Toppings"}
               </button>
@@ -502,7 +502,7 @@ Thank you!`;
                     }`}
                     onClick={() => toggleTopping(topping.id)}
                   >
-                    <img src={topping.emoji} alt={topping.name} />
+                    <img src={topping.emoji} alt="" />
 
                     <span className="pizza-topping-card__name">
                       {topping.name}
@@ -523,30 +523,25 @@ Thank you!`;
             </div>
           </section>
 
-          {/* QUANTITY */}
           <section className="pizza-section">
             <h3>05. Quantity</h3>
 
             <div className="pizza-quantity">
               <button
                 type="button"
-                onClick={() => setQuantity((value) => Math.max(1, value - 1))}
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
               >
                 −
               </button>
 
               <strong>{quantity}</strong>
 
-              <button
-                type="button"
-                onClick={() => setQuantity((value) => value + 1)}
-              >
+              <button type="button" onClick={() => setQuantity((q) => q + 1)}>
                 +
               </button>
             </div>
           </section>
 
-          {/* CHECKOUT */}
           <div className="pizza-checkout">
             <div>
               <span>Total</span>
@@ -557,7 +552,7 @@ Thank you!`;
             <button
               type="button"
               className="pizza-add-button"
-              onClick={handleWhatsAppOrder}
+              onClick={handleOrderNow}
             >
               Order Now →
             </button>
