@@ -312,11 +312,14 @@ Thank you!`;
       totalPrice,
     };
 
-    const message = createWhatsAppMessage(order);
+    const message = createWhatsAppMessage(order);    
 
-    const whatsappUrl = `https://wa.me/${websiteSettings?.whatsappUrl.split('/').pop()}?text=${encodeURIComponent(
+    const whatsappUrl = `${websiteSettings?.whatsappUrl}?text=${encodeURIComponent(
       message,
     )}`;
+
+    console.log(whatsappUrl);
+    
 
     window.open(whatsappUrl, "_blank");
   };
