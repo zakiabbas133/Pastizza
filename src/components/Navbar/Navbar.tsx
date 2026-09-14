@@ -130,9 +130,14 @@ export function Navbar() {
 
           {/* Actions */}
           <div className={styles.actions}>
-            <Link to="/menu" className={`btn btn-primary btn-sm ${styles.cta}`}>
-              Order Now
+            <Link
+              to="/firestorm"
+              className={`btn btn-primary btn-sm ${styles.cta}`}
+            >
+              Firestorm
             </Link>
+
+            {/* <div className={styles.empty} /> */}
 
             {/* Mobile menu button */}
             <button

@@ -14,6 +14,7 @@ import { NotFound } from "./pages/NotFound/NotFound";
 import WebsiteLoader from "./components/WebsiteLoader/WebsiteLoader";
 import SocialFab from "./components/SocialMedia/SocialFab";
 import DealDetails from "./pages/Deal/DealDetails";
+import Firestorm from "./pages/Firestorm";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         <main>
           <Routes>
             <Route path="/" element={<Overview />} />
+            <Route path="/firestorm" element={<Firestorm />} />
             <Route path="/menu" element={<Menu />} />
             <Route path="/menu/:id" element={<MenuItemDetail />} />
             <Route path="/reviews" element={<Reviews />} />
