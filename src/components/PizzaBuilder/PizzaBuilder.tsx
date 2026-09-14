@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import "./PizzaBuilder.css";
+import { useGetWebsiteSettingsQuery } from "../../services/websiteSettingsApi";
 
 const pizzaSizes = [
   {
@@ -216,6 +217,9 @@ const crusts = [
 ];
 
 const PizzaBuilder = () => {
+  const { data: websiteSettings = null, isLoading: websiteSettingsLoading } =
+    useGetWebsiteSettingsQuery();
+
   const [selectedSize, setSelectedSize] = useState("small");
   const [selectedSauce, setSelectedSauce] = useState("tomato");
   const [selectedToppings, setSelectedToppings] = useState(["chicken"]);
@@ -310,9 +314,7 @@ Thank you!`;
 
     const message = createWhatsAppMessage(order);
 
-    const phoneNumber = "923001234567";
-
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/${websiteSettings?.whatsappUrl.split('/').pop()}?text=${encodeURIComponent(
       message,
     )}`;
 
@@ -550,8 +552,9 @@ Thank you!`;
             </div>
 
             <button
+              disabled={websiteSettingsLoading}
               type="button"
-              className="pizza-add-button"
+              className={websiteSettingsLoading ? "pizza-add-disabled-button" : "pizza-add-button"}
               onClick={handleOrderNow}
             >
               Order Now →

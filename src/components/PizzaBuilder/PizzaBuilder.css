@@ -763,6 +763,26 @@
     box-shadow 0.25s ease;
 }
 
+.pizza-add-disabled-button {
+  display: inline-flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 25px;
+  border: none;
+  border-radius: 12px;
+  background: var(--pizza-gold-dark);
+  color: #29231d;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
 .pizza-add-button:hover {
   background: #f5d16b;
   box-shadow: 0 8px 20px rgba(238, 190, 69, 0.2);
