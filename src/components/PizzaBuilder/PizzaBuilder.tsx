@@ -312,14 +312,11 @@ Thank you!`;
       totalPrice,
     };
 
-    const message = createWhatsAppMessage(order);    
+    const message = createWhatsAppMessage(order);
 
     const whatsappUrl = `${websiteSettings?.whatsappUrl}?text=${encodeURIComponent(
       message,
     )}`;
-
-    console.log(whatsappUrl);
-    
 
     window.open(whatsappUrl, "_blank");
   };
@@ -557,7 +554,11 @@ Thank you!`;
             <button
               disabled={websiteSettingsLoading}
               type="button"
-              className={websiteSettingsLoading ? "pizza-add-disabled-button" : "pizza-add-button"}
+              className={
+                websiteSettingsLoading
+                  ? "pizza-add-disabled-button"
+                  : "pizza-add-button"
+              }
               onClick={handleOrderNow}
             >
               Order Now →
