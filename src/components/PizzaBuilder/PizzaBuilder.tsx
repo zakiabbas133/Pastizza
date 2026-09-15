@@ -1,6 +1,11 @@
 import { useMemo, useState } from "react";
-import "./PizzaBuilder.css";
 import { useGetWebsiteSettingsQuery } from "../../services/websiteSettingsApi";
+import {
+  usePlaceOrderMutation,
+  type PlaceOrderType,
+} from "../../services/ordersApi";
+import { toast } from "react-toastify";
+import "./PizzaBuilder.css";
 
 const pizzaSizes = [
   {
@@ -217,6 +222,8 @@ const crusts = [
 ];
 
 const PizzaBuilder = () => {
+  const [placeOrder, { isLoading }] = usePlaceOrderMutation();
+
   const { data: websiteSettings = null, isLoading: websiteSettingsLoading } =
     useGetWebsiteSettingsQuery();
 
@@ -225,6 +232,10 @@ const PizzaBuilder = () => {
   const [selectedToppings, setSelectedToppings] = useState(["chicken"]);
   const [selectedCrust, setSelectedCrust] = useState("classic");
   const [quantity, setQuantity] = useState(1);
+
+  // Customer information
+  const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const size =
     pizzaSizes.find((item) => item.id === selectedSize) || pizzaSizes[0];
@@ -264,19 +275,11 @@ const PizzaBuilder = () => {
     );
   };
 
-  const createWhatsAppMessage = (order: {
-    name: string;
-    size: string;
-    crust: string;
-    sauce: string;
-    toppings: typeof toppings;
-    quantity: number;
-    totalPrice: number;
-  }) => {
-    const toppingsText =
-      order.toppings.length > 0
-        ? order.toppings.map((topping) => `• ${topping.name}`).join("\n")
-        : "• None";
+  const createWhatsAppMessage = (order: PlaceOrderType) => {
+    const toppingsText = order.toppings
+      .split(",")
+      .map((topping) => `• ${topping.trim()}`)
+      .join("\n");
 
     return `*New Custom Pizza Order*
 
@@ -284,7 +287,9 @@ Assalamualaikum Pastizza!
 
 I'd like to order a *Build Your Own Pizza*:
 
-*Pizza:* ${order.name}
+*Customer Name:* ${fullName}
+*Phone:* ${phoneNumber}
+
 *Size:* ${order.size}
 *Crust:* ${order.crust}
 *Sauce:* ${order.sauce}
@@ -292,7 +297,7 @@ I'd like to order a *Build Your Own Pizza*:
 *Toppings:*
 ${toppingsText}
 
-*Pizza Quantity:* ${order.quantity}
+*Pizza Quantity:* ${order.orderQuantity}
 
 *Total:* Rs. ${order.totalPrice.toLocaleString()}
 
@@ -301,28 +306,157 @@ Please confirm my order.
 Thank you!`;
   };
 
-  const handleWhatsAppOrder = () => {
-    const order = {
-      name: "Build Your Own Pizza",
-      size: size.name,
-      crust: crust.name,
-      sauce: sauce.name,
-      toppings: selectedToppingObjects,
-      quantity,
-      totalPrice,
+  const handleWhatsAppOrder = (order: PlaceOrderType) => {
+    const orderPlaced = {
+      id: order.id,
+      orderType: order.orderType,
+      size: order.size,
+      crust: order.crust,
+      sauce: order.sauce,
+      toppings: order.toppings,
+      orderQuantity: order.orderQuantity,
+      totalPrice: order.totalPrice,
     };
 
-    const message = createWhatsAppMessage(order);
+    const message = createWhatsAppMessage(orderPlaced as PlaceOrderType);
 
-    const whatsappUrl = `${websiteSettings?.whatsappUrl}?text=${encodeURIComponent(
-      message,
-    )}`;
+    const whatsappUrl = `${
+      websiteSettings?.whatsappUrl
+    }?text=${encodeURIComponent(message)}`;
 
     window.open(whatsappUrl, "_blank");
   };
 
-  const handleOrderNow = () => {
-    handleWhatsAppOrder();
+  const handleOrderNow = async () => {
+    // Validate customer information
+    const trimmedName = fullName.trim();
+    const trimmedPhone = phoneNumber.trim();
+
+    if (!trimmedName) {
+      toast("Please enter your full name.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+        type: "warning",
+      });
+
+      return;
+    }
+
+    if (trimmedName.length < 3) {
+      toast("Please enter a valid full name.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+        type: "warning",
+      });
+
+      return;
+    }
+
+    if (!trimmedPhone) {
+      toast("Please enter your phone number.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+        type: "warning",
+      });
+
+      return;
+    }
+
+    const phoneDigits = trimmedPhone.replace(/\D/g, "");
+
+    if (phoneDigits.length < 10) {
+      toast("Please enter a valid phone number.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+        type: "warning",
+      });
+
+      return;
+    }
+
+    try {
+      const toppingsPayload = selectedToppingObjects
+        .map((x) => x.name)
+        .join(", ");
+
+      const formData = new FormData();
+
+      formData.append("orderType", "Pizza");
+      formData.append("fullName", trimmedName);
+      formData.append("phoneNumber", trimmedPhone);
+      formData.append("size", String(size.name));
+      formData.append("crust", String(crust.name));
+      formData.append("sauce", String(sauce.name));
+      formData.append("toppings", toppingsPayload);
+      formData.append("orderQuantity", String(quantity));
+      formData.append("totalPrice", String(totalPrice));
+      formData.append("orderBy", String(fullName));
+      formData.append("orderByNumber", String(phoneNumber));
+
+      const placedOrder = await placeOrder(formData).unwrap();
+
+      if (placedOrder.success) {
+        toast("Order placed. We will confirm your order in a while.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "success",
+        });
+
+        handleWhatsAppOrder(placedOrder.order);
+      } else {
+        toast("Unable to place order. Please try again later.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "error",
+        });
+      }
+    } catch (error) {
+      console.error("Failed to place order:", error);
+
+      toast("Unable to place order. Please try again later.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        type: "error",
+      });
+    }
   };
 
   return (
@@ -346,7 +480,6 @@ Thank you!`;
                 <div className="pizza-preview__cheese">
                   {selectedToppingObjects.map((topping, index) => {
                     const position = pizzaPositions[index];
-
                     const rotation = toppingRotations[index];
 
                     if (!position) {
@@ -511,9 +644,7 @@ Thank you!`;
                     </span>
 
                     <span className="pizza-topping-card__price">
-                      {topping.price === 0
-                        ? "Free"
-                        : `+ Rs. ${topping.price}`}
+                      {topping.price === 0 ? "Free" : `+ Rs. ${topping.price}`}
                     </span>
 
                     <span className="pizza-topping-card__check">
@@ -544,6 +675,98 @@ Thank you!`;
             </div>
           </section>
 
+          {/* Customer Information */}
+          <section className="pizza-section pizza-customer-section">
+            <div className="pizza-section__header">
+              <div>
+                <span className="pizza-customer-eyebrow">ALMOST THERE</span>
+
+                <h3>06. Your details</h3>
+              </div>
+            </div>
+
+            <p className="pizza-customer-description">
+              Tell us where to reach you so we can confirm your delicious
+              creation.
+            </p>
+
+            <div className="pizza-customer-fields">
+              {/* Full Name */}
+              <div className="pizza-input-group">
+                <label htmlFor="pizza-full-name">Full Name</label>
+
+                <div className="pizza-input-wrapper">
+                  <span className="pizza-input-icon">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M20 21C20 19.3431 17.3137 18 14 18H10C6.68629 18 4 19.3431 4 21"
+                        stroke="currentColor"
+                        strokeWidth="1.7"
+                        strokeLinecap="round"
+                      />
+                      <circle
+                        cx="12"
+                        cy="7"
+                        r="4"
+                        stroke="currentColor"
+                        strokeWidth="1.7"
+                      />
+                    </svg>
+                  </span>
+
+                  <input
+                    id="pizza-full-name"
+                    type="text"
+                    value={fullName}
+                    onChange={(event) => setFullName(event.target.value)}
+                    placeholder="Enter your full name"
+                    autoComplete="name"
+                    maxLength={100}
+                  />
+                </div>
+              </div>
+
+              {/* Phone Number */}
+              <div className="pizza-input-group">
+                <label htmlFor="pizza-phone-number">Phone Number</label>
+
+                <div className="pizza-input-wrapper">
+                  <span className="pizza-input-icon">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.62 10.79C8.06 13.62 10.38 15.94 13.21 17.38L15.41 15.18C15.69 14.9 16.08 14.81 16.44 14.93C17.59 15.31 18.82 15.52 20.09 15.52C20.59 15.52 21 15.93 21 16.43V20.09C21 20.59 20.59 21 20.09 21C10.65 21 3 13.35 3 3.91C3 3.41 3.41 3 3.91 3H7.58C8.08 3 8.49 3.41 8.49 3.91C8.49 5.18 8.7 6.41 9.08 7.56C9.2 7.92 9.11 8.31 8.83 8.59L6.62 10.79Z"
+                        stroke="currentColor"
+                        strokeWidth="1.7"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+
+                  <input
+                    id="pizza-phone-number"
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={(event) => setPhoneNumber(event.target.value)}
+                    placeholder="03XX XXXXXXX"
+                    autoComplete="tel"
+                    inputMode="tel"
+                    maxLength={20}
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Checkout */}
           <div className="pizza-checkout">
             <div>
               <span>Total</span>
@@ -552,16 +775,16 @@ Thank you!`;
             </div>
 
             <button
-              disabled={websiteSettingsLoading}
+              disabled={websiteSettingsLoading || isLoading}
               type="button"
               className={
-                websiteSettingsLoading
+                websiteSettingsLoading || isLoading
                   ? "pizza-add-disabled-button"
                   : "pizza-add-button"
               }
               onClick={handleOrderNow}
             >
-              Order Now →
+              {isLoading ? "Placing Order..." : "Order Now →"}
             </button>
           </div>
         </div>

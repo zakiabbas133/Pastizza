@@ -793,6 +793,140 @@
   transform: translateY(0);
 }
 
+/* ========================================================= CUSTOMER DETAILS ========================================================= */
+.pizza-customer-section {
+  position: relative;
+  padding: 26px;
+  border-radius: 24px;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.96),
+    rgba(255, 250, 242, 0.92)
+  );
+  border: 1px solid rgba(190, 160, 105, 0.18);
+  box-shadow:
+    0 18px 50px rgba(74, 53, 28, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+}
+.pizza-customer-section::before {
+  content: "";
+  position: absolute;
+  top: -90px;
+  right: -90px;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: rgba(238, 190, 69, 0.08);
+  pointer-events: none;
+}
+.pizza-customer-section .pizza-section__header {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 8px;
+}
+.pizza-customer-eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #b18a36;
+}
+.pizza-customer-section h3 {
+  margin: 0;
+}
+.pizza-customer-description {
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+  margin: 0 0 22px;
+  color: #77716a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.pizza-customer-fields {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+.pizza-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pizza-input-group label {
+  padding-left: 3px;
+  color: #3d3934;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.pizza-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  border: 1px solid rgba(91, 76, 55, 0.13);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow:
+    0 5px 18px rgba(57, 42, 24, 0.035),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease,
+    background 180ms ease;
+}
+.pizza-input-wrapper:hover {
+  border-color: rgba(190, 160, 105, 0.35);
+  background: #fff;
+}
+.pizza-input-wrapper:focus-within {
+  border-color: #eebe45;
+  background: #fff;
+  box-shadow:
+    0 0 0 4px rgba(238, 190, 69, 0.12),
+    0 10px 25px rgba(57, 42, 24, 0.06);
+  transform: translateY(-1px);
+}
+.pizza-input-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  flex: 0 0 48px;
+  color: #b18a36;
+}
+.pizza-input-icon svg {
+  width: 19px;
+  height: 19px;
+}
+.pizza-input-wrapper input {
+  width: 100%;
+  min-width: 0;
+  height: 54px;
+  padding: 0 16px 0 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #292621;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+}
+.pizza-input-wrapper input::placeholder {
+  color: #aaa39a;
+  font-weight: 400;
+}
+.pizza-input-wrapper input:focus::placeholder {
+  opacity: 0.55;
+}
+
 /* ========================================
    RESPONSIVE
 ======================================== */
@@ -930,6 +1064,33 @@
 
   .pizza-add-button {
     width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .pizza-customer-section {
+    padding: 20px;
+    border-radius: 20px;
+  }
+  .pizza-customer-fields {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+@media (max-width: 480px) {
+  .pizza-customer-section {
+    padding: 17px;
+  }
+  .pizza-input-wrapper {
+    min-height: 53px;
+  }
+  .pizza-input-wrapper input {
+    height: 51px;
+    font-size: 13px;
+  }
+  .pizza-input-icon {
+    width: 44px;
+    flex-basis: 44px;
   }
 }
 
