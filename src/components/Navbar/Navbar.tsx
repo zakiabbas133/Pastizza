@@ -130,12 +130,12 @@ export function Navbar() {
 
           {/* Actions */}
           <div className={styles.actions}>
-            <Link
+            {/* <Link
               to="/firestorm"
               className={`btn btn-primary btn-sm ${styles.cta}`}
             >
               Firestorm
-            </Link>
+            </Link> */}
 
             <div className={styles.empty} />
 
