@@ -461,14 +461,6 @@ Thank you!`;
 
   return (
     <div className="pizza-builder">
-      <div className="pizza-builder__header">
-        <span className="pizza-builder__eyebrow">PASTIZZA STUDIO</span>
-
-        <h1>Build Your Own Pizza</h1>
-
-        <p>Your pizza. Your rules. Create something delicious.</p>
-      </div>
-
       <div className="pizza-builder__layout">
         {/* Preview */}
         <div className="pizza-preview">
@@ -506,7 +498,7 @@ Thank you!`;
           </div>
 
           <div className="pizza-preview__details">
-            <h2>Your Creation</h2>
+            <h2>Your Pizza</h2>
 
             <div className="pizza-preview__summary">
               <span>{size.name}</span>

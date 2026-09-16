@@ -137,7 +137,7 @@ export function Navbar() {
               Firestorm
             </Link>
 
-            {/* <div className={styles.empty} /> */}
+            <div className={styles.empty} />
 
             {/* Mobile menu button */}
             <button

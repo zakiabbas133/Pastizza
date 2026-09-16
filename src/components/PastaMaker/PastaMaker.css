@@ -1,0 +1,1465 @@
+/* =========================================================
+   PASTIZZA — BUILD YOUR OWN PASTA
+   Premium Light Restaurant Theme
+========================================================= */
+
+.pasta-maker {
+  --pasta-bg: #fffaf2;
+  --pasta-surface: #ffffff;
+  --pasta-text: #29231d;
+  --pasta-muted: #82796d;
+  --pasta-border: #eee4d6;
+
+  --pasta-gold: #eebe45;
+  --pasta-gold-dark: #a87519;
+
+  margin: 0 auto;
+  color: var(--pasta-text);
+  background: var(--pasta-bg);
+  border-radius: 32px;
+}
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+
+.pasta-maker__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 65px;
+  align-items: start;
+}
+
+/* =========================================================
+   PREVIEW
+========================================================= */
+
+.pasta-preview {
+  position: sticky;
+  top: 90px;
+  width: 100%;
+  min-width: 0;
+}
+
+.pasta-preview__stage {
+  position: relative;
+
+  display: flex;
+  width: 100%;
+  min-height: 400px;
+
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  border: 1px solid #f0e2ce;
+  border-radius: 30px;
+
+  background: radial-gradient(ellipse at center, #fffdf8 0%, #f6ead7 100%);
+}
+
+.pasta-preview__glow {
+  position: absolute;
+
+  width: 390px;
+  height: 390px;
+
+  border-radius: 50%;
+
+  background: rgba(238, 190, 69, 0.14);
+
+  filter: blur(40px);
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   BOWL
+========================================================= */
+
+.pasta-bowl {
+  position: relative;
+  z-index: 2;
+
+  width: min(76%, 370px);
+  aspect-ratio: 1 / 0.76;
+
+  transform: translateY(0);
+
+  animation: pastaFloat 6s ease-in-out infinite;
+
+  transition:
+    transform 0.5s ease,
+    filter 0.4s ease;
+}
+
+.pasta-bowl:hover {
+  transform: translateY(-7px) rotate(1deg);
+}
+
+.pasta-bowl__rim {
+  position: absolute;
+  inset: 0;
+
+  border-radius: 50% 50% 45% 45%;
+
+  background: linear-gradient(145deg, #f8f3ea, #d8cbbb 70%, #b8a895);
+
+  box-shadow:
+    0 15px 0 #a79784,
+    0 28px 45px rgba(75, 52, 27, 0.22);
+}
+
+.pasta-bowl__inside {
+  position: absolute;
+
+  top: 7%;
+  left: 5%;
+
+  width: 90%;
+  height: 82%;
+
+  overflow: hidden;
+
+  border-radius: 50%;
+
+  background: radial-gradient(ellipse at center, #3d3024 0%, #211914 75%);
+
+  box-shadow:
+    inset 0 10px 25px rgba(0, 0, 0, 0.45),
+    inset 0 -8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* =========================================================
+   SAUCE
+========================================================= */
+
+.pasta-preview__sauce {
+  position: absolute;
+  inset: 8%;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      ellipse at 30% 25%,
+      rgba(255, 245, 210, 0.45),
+      transparent 30%
+    ),
+    radial-gradient(ellipse at center, #f1c968, #d19b3f 75%);
+
+  opacity: 0.88;
+
+  transition:
+    background 0.5s ease,
+    filter 0.5s ease;
+}
+
+/* Alfredo */
+
+.pasta-bowl--penne .pasta-preview__sauce,
+.pasta-bowl--fettuccine .pasta-preview__sauce {
+  background: radial-gradient(
+    ellipse at 35% 25%,
+    #fff5cf,
+    #e9bd61 60%,
+    #c88b2e
+  );
+}
+
+/* =========================================================
+   PASTA NOODLES
+========================================================= */
+
+.pasta-noodles {
+  position: absolute;
+  inset: 10%;
+
+  z-index: 2;
+
+  border-radius: 50%;
+
+  overflow: hidden;
+}
+
+.pasta-noodle {
+  position: absolute;
+
+  width: 82%;
+  height: 20px;
+
+  left: 9%;
+
+  top: calc(18% + (var(--i) * 3%));
+
+  border-radius: 50%;
+
+  background: linear-gradient(180deg, #f7dc82, var(--pasta-color), #c88932);
+
+  box-shadow: 0 2px 2px rgba(72, 42, 10, 0.18);
+
+  transform: rotate(calc(-18deg + (var(--i) * 5deg)));
+
+  opacity: 0.96;
+}
+
+.pasta-noodle:nth-child(2n) {
+  left: 2%;
+  width: 88%;
+}
+
+.pasta-noodle:nth-child(3n) {
+  left: 15%;
+  width: 75%;
+}
+
+.pasta-noodle:nth-child(4n) {
+  left: 5%;
+  width: 84%;
+}
+
+/* =========================================================
+   TOPPINGS
+========================================================= */
+
+.pasta-topping {
+  position: absolute;
+
+  z-index: 5;
+
+  width: 43px;
+  height: 43px;
+
+  object-fit: contain;
+
+  filter: drop-shadow(0 4px 4px rgba(55, 34, 12, 0.3));
+
+  user-select: none;
+  pointer-events: none;
+
+  animation: pastaToppingAppear 0.35s ease-out both;
+}
+
+@keyframes pastaToppingAppear {
+  from {
+    opacity: 0;
+    scale: 0.7;
+  }
+
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+/* =========================================================
+   HERBS
+========================================================= */
+
+.pasta-herbs {
+  position: absolute;
+  inset: 12%;
+
+  z-index: 7;
+
+  pointer-events: none;
+}
+
+.pasta-herbs span {
+  position: absolute;
+
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: #607044;
+
+  box-shadow: 0 2px 3px rgba(20, 35, 10, 0.25);
+}
+
+.pasta-herbs span:nth-child(1) {
+  top: 25%;
+  left: 30%;
+}
+
+.pasta-herbs span:nth-child(2) {
+  top: 40%;
+  left: 67%;
+}
+
+.pasta-herbs span:nth-child(3) {
+  top: 65%;
+  left: 43%;
+}
+
+.pasta-herbs span:nth-child(4) {
+  top: 72%;
+  left: 70%;
+}
+
+.pasta-herbs span:nth-child(5) {
+  top: 30%;
+  left: 55%;
+}
+
+/* =========================================================
+   PREVIEW DETAILS
+========================================================= */
+
+.pasta-preview__details {
+  padding-top: 1rem;
+  text-align: center;
+}
+
+.pasta-preview__eyebrow {
+  display: inline-block;
+
+  margin-bottom: 8px;
+
+  color: var(--pasta-gold-dark);
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 4px;
+}
+
+.pasta-preview__details h2 {
+  margin: 0 0 8px;
+
+  color: var(--pasta-text);
+
+  font-size: 28px;
+  font-weight: 800;
+
+  letter-spacing: -0.7px;
+}
+
+.pasta-preview__summary {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  color: var(--pasta-muted);
+
+  font-size: 14px;
+}
+
+.pasta-preview__selected {
+  display: inline-block;
+
+  max-width: 100%;
+
+  margin-top: 15px;
+  padding: 9px 15px;
+
+  border: 1px solid #f3dfac;
+  border-radius: 100px;
+
+  background: #fff4d7;
+
+  color: #8d6b29;
+
+  font-size: 12px;
+}
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.pasta-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.pasta-section {
+  padding: 25px;
+
+  border: 1px solid var(--pasta-border);
+  border-radius: 20px;
+
+  background: var(--pasta-surface);
+}
+
+.pasta-section h3 {
+  margin: 0 0 20px;
+
+  color: var(--pasta-text);
+
+  font-size: 17px;
+  font-weight: 800;
+
+  letter-spacing: -0.3px;
+}
+
+.pasta-section__header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  margin-bottom: 20px;
+}
+
+.pasta-section__header h3 {
+  margin: 0;
+}
+
+.pasta-section__eyebrow {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #b18a36;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 0.18em;
+}
+
+/* =========================================================
+   SIZE
+========================================================= */
+
+.pasta-size-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 10px;
+}
+
+.pasta-size {
+  display: flex;
+
+  flex-direction: column;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 19px 8px;
+
+  border: 1px solid var(--pasta-border);
+  border-radius: 14px;
+
+  background: #fffdf9;
+
+  color: var(--pasta-text);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.pasta-size strong {
+  font-size: 15px;
+}
+
+.pasta-size span {
+  color: var(--pasta-muted);
+
+  font-size: 11px;
+  text-align: center;
+}
+
+.pasta-size b {
+  color: #a87519;
+
+  font-size: 13px;
+}
+
+.pasta-size:hover {
+  border-color: #e5c16e;
+
+  transform: translateY(-2px);
+}
+
+.pasta-size--active {
+  border: 2px solid var(--pasta-gold);
+
+  background: #fff8e6;
+
+  box-shadow: 0 5px 15px rgba(238, 190, 69, 0.1);
+}
+
+/* =========================================================
+   PASTA OPTIONS
+========================================================= */
+
+.pasta-options-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 10px;
+}
+
+.pasta-option {
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 14px;
+
+  border: 1px solid var(--pasta-border);
+  border-radius: 14px;
+
+  background: #fffdf9;
+
+  color: var(--pasta-text);
+
+  cursor: pointer;
+
+  text-align: left;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.pasta-option:hover {
+  border-color: #e5c16e;
+
+  transform: translateY(-2px);
+}
+
+.pasta-option--selected {
+  border: 2px solid var(--pasta-gold);
+
+  background: #fff8e6;
+}
+
+.pasta-option__image {
+  width: 43px;
+  height: 43px;
+
+  object-fit: contain;
+}
+
+.pasta-option__content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pasta-option__name {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.pasta-option__price {
+  color: var(--pasta-muted);
+  font-size: 11px;
+}
+
+.pasta-option__check {
+  margin-left: auto;
+
+  display: grid;
+
+  width: 25px;
+  height: 25px;
+
+  flex-shrink: 0;
+
+  place-items: center;
+
+  border: 1px solid #e4d9c8;
+  border-radius: 50%;
+
+  color: transparent;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.pasta-option--selected .pasta-option__check {
+  border-color: var(--pasta-gold);
+
+  background: var(--pasta-gold);
+
+  color: var(--pasta-text);
+}
+
+/* =========================================================
+   SAUCE
+========================================================= */
+
+.pasta-sauce-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 10px;
+}
+
+.pasta-sauce {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  padding: 15px 16px;
+
+  border: 1px solid var(--pasta-border);
+  border-radius: 12px;
+
+  background: #fffdf9;
+
+  color: var(--pasta-text);
+
+  cursor: pointer;
+
+  text-align: left;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.pasta-sauce:hover {
+  border-color: #e5c16e;
+
+  transform: translateY(-1px);
+}
+
+.pasta-sauce span {
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.pasta-sauce small {
+  color: var(--pasta-muted);
+  font-size: 11px;
+}
+
+.pasta-sauce--active {
+  border-color: var(--pasta-gold);
+
+  background: #fff8e6;
+}
+
+/* =========================================================
+   TOPPING CARDS
+========================================================= */
+
+.pasta-toppings-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 10px;
+}
+
+.pasta-topping-card {
+  position: relative;
+
+  display: flex;
+
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 7px;
+
+  padding: 17px;
+
+  border: 1px solid var(--pasta-border);
+  border-radius: 16px;
+
+  background: #fffdf9;
+
+  color: var(--pasta-text);
+
+  cursor: pointer;
+
+  text-align: left;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.pasta-topping-card img {
+  width: 45px;
+  height: 45px;
+
+  object-fit: contain;
+}
+
+.pasta-topping-card:hover {
+  border-color: #e5c16e;
+
+  box-shadow: 0 7px 18px rgba(95, 65, 20, 0.06);
+
+  transform: translateY(-3px);
+}
+
+.pasta-topping-card__name {
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.pasta-topping-card__price {
+  color: var(--pasta-muted);
+
+  font-size: 12px;
+}
+
+.pasta-topping-card__check {
+  position: absolute;
+
+  top: 13px;
+  right: 13px;
+
+  display: grid;
+
+  width: 25px;
+  height: 25px;
+
+  place-items: center;
+
+  border: 1px solid #e4d9c8;
+  border-radius: 50%;
+
+  color: #b4a898;
+
+  font-size: 14px;
+
+  transition: all 0.25s ease;
+}
+
+.pasta-topping-card--active {
+  border: 2px solid var(--pasta-gold);
+
+  background: #fff8e6;
+
+  transform: translateY(-2px);
+}
+
+.pasta-topping-card--active .pasta-topping-card__check {
+  border-color: var(--pasta-gold);
+
+  background: var(--pasta-gold);
+
+  color: #29231d;
+}
+
+/* =========================================================
+   SELECT ALL
+========================================================= */
+
+.pasta-select-all {
+  display: inline-flex;
+
+  min-height: 38px;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 15px;
+
+  border: 1px solid #ead8b5;
+  border-radius: 10px;
+
+  background: #fffaf0;
+
+  color: #a87519;
+
+  font-size: 12px;
+  font-weight: 750;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.pasta-select-all:hover {
+  border-color: var(--pasta-gold);
+
+  background: #fff3d3;
+
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   SPICE
+========================================================= */
+
+.pasta-spice-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 8px;
+}
+
+.pasta-spice {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 15px 8px;
+
+  border: 1px solid var(--pasta-border);
+  border-radius: 13px;
+
+  background: #fffdf9;
+
+  color: var(--pasta-text);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.pasta-spice:hover {
+  border-color: #e5c16e;
+
+  transform: translateY(-2px);
+}
+
+.pasta-spice--active {
+  border-color: var(--pasta-gold);
+
+  background: #fff8e6;
+}
+
+.pasta-spice strong {
+  font-size: 12px;
+}
+
+.pasta-spice small {
+  color: var(--pasta-muted);
+}
+
+.pasta-spice__dots {
+  display: flex;
+  gap: 3px;
+}
+
+.pasta-spice__dots i {
+  display: block;
+
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: #d56b3b;
+}
+
+/* =========================================================
+   EXTRAS
+========================================================= */
+
+.pasta-extra-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 10px;
+}
+
+.pasta-extra {
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  padding: 14px 15px;
+
+  border: 1px solid var(--pasta-border);
+  border-radius: 12px;
+
+  background: #fffdf9;
+
+  color: var(--pasta-text);
+
+  cursor: pointer;
+
+  text-align: left;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.pasta-extra:hover {
+  border-color: #e5c16e;
+
+  transform: translateY(-1px);
+}
+
+.pasta-extra span {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pasta-extra small {
+  color: var(--pasta-muted);
+  font-size: 11px;
+}
+
+.pasta-extra b {
+  display: grid;
+
+  width: 23px;
+  height: 23px;
+
+  flex-shrink: 0;
+
+  place-items: center;
+
+  border: 1px solid #e4d9c8;
+  border-radius: 50%;
+
+  color: #aaa;
+
+  font-size: 12px;
+}
+
+.pasta-extra--active {
+  border-color: var(--pasta-gold);
+
+  background: #fff8e6;
+}
+
+.pasta-extra--active b {
+  border-color: var(--pasta-gold);
+
+  background: var(--pasta-gold);
+
+  color: #29231d;
+}
+
+/* =========================================================
+   QUANTITY
+========================================================= */
+
+.pasta-quantity {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 25px;
+
+  padding: 6px;
+
+  border: 1px solid var(--pasta-border);
+  border-radius: 12px;
+
+  background: #fffdf9;
+}
+
+.pasta-quantity button {
+  display: grid;
+
+  width: 32px;
+  height: 32px;
+
+  place-items: center;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #fff3da;
+
+  color: #80601f;
+
+  font-size: 22px;
+
+  cursor: pointer;
+}
+
+.pasta-quantity button:hover {
+  background: var(--pasta-gold);
+}
+
+.pasta-quantity strong {
+  min-width: 15px;
+
+  color: var(--pasta-text);
+
+  text-align: center;
+}
+
+/* =========================================================
+   CUSTOMER DETAILS
+========================================================= */
+
+.pasta-customer-section {
+  position: relative;
+
+  padding: 26px;
+
+  border-radius: 24px;
+
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.96),
+    rgba(255, 250, 242, 0.92)
+  );
+
+  border: 1px solid rgba(190, 160, 105, 0.18);
+
+  box-shadow:
+    0 18px 50px rgba(74, 53, 28, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+  overflow: hidden;
+}
+
+.pasta-customer-section::before {
+  content: "";
+
+  position: absolute;
+
+  top: -90px;
+  right: -90px;
+
+  width: 190px;
+  height: 190px;
+
+  border-radius: 50%;
+
+  background: rgba(238, 190, 69, 0.08);
+
+  pointer-events: none;
+}
+
+.pasta-customer-eyebrow {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #b18a36;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 0.18em;
+}
+
+.pasta-customer-description {
+  position: relative;
+
+  max-width: 520px;
+
+  margin: 0 0 22px;
+
+  color: #77716a;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+.pasta-customer-fields {
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 15px;
+}
+
+.pasta-input-group {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.pasta-input-group label {
+  padding-left: 3px;
+
+  color: #3d3934;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pasta-input-wrapper {
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  min-height: 56px;
+
+  border: 1px solid rgba(91, 76, 55, 0.13);
+
+  border-radius: 15px;
+
+  background: rgba(255, 255, 255, 0.82);
+
+  box-shadow:
+    0 5px 18px rgba(57, 42, 24, 0.035),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease,
+    background 180ms ease;
+}
+
+.pasta-input-wrapper:hover {
+  border-color: rgba(190, 160, 105, 0.35);
+
+  background: #fff;
+}
+
+.pasta-input-wrapper:focus-within {
+  border-color: #eebe45;
+
+  background: #fff;
+
+  box-shadow:
+    0 0 0 4px rgba(238, 190, 69, 0.12),
+    0 10px 25px rgba(57, 42, 24, 0.06);
+
+  transform: translateY(-1px);
+}
+
+.pasta-input-icon {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 48px;
+  flex: 0 0 48px;
+
+  color: #b18a36;
+}
+
+.pasta-input-icon svg {
+  width: 19px;
+  height: 19px;
+}
+
+.pasta-input-wrapper input {
+  width: 100%;
+  min-width: 0;
+
+  height: 54px;
+
+  padding: 0 16px 0 0;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: #292621;
+
+  font-family: inherit;
+
+  font-size: 14px;
+}
+
+.pasta-input-wrapper input::placeholder {
+  color: #aaa39a;
+}
+
+/* =========================================================
+   CHECKOUT
+========================================================= */
+
+.pasta-checkout {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 25px;
+
+  border-radius: 20px;
+
+  background: #29231d;
+
+  box-shadow: 0 12px 30px rgba(50, 35, 20, 0.12);
+}
+
+.pasta-checkout span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #c8b9a7;
+
+  font-size: 12px;
+}
+
+.pasta-checkout strong {
+  display: block;
+
+  color: #ffffff;
+
+  font-size: 28px;
+
+  letter-spacing: -0.5px;
+}
+
+.pasta-add-button,
+.pasta-add-disabled-button {
+  display: inline-flex;
+
+  min-height: 54px;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  padding: 0 25px;
+
+  border: none;
+  border-radius: 12px;
+
+  color: #29231d;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.pasta-add-button {
+  background: var(--pasta-gold);
+}
+
+.pasta-add-disabled-button {
+  background: var(--pasta-gold-dark);
+
+  cursor: default;
+}
+
+.pasta-add-button:hover {
+  background: #f5d16b;
+
+  box-shadow: 0 8px 20px rgba(238, 190, 69, 0.2);
+
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes pastaFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+  .pasta-maker__layout {
+    grid-template-columns: 1fr;
+
+    gap: 35px;
+  }
+
+  .pasta-preview {
+    position: static;
+  }
+
+  .pasta-preview__stage {
+    min-height: 440px;
+  }
+
+  .pasta-bowl {
+    width: min(70%, 370px);
+  }
+}
+
+@media (max-width: 768px) {
+  .pasta-spice-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .pasta-maker {
+    padding: 45px 14px 65px;
+
+    border-radius: 20px;
+  }
+
+  .pasta-section {
+    padding: 18px;
+
+    border-radius: 16px;
+  }
+
+  .pasta-preview__stage {
+    min-height: 350px;
+
+    border-radius: 22px;
+  }
+
+  .pasta-bowl {
+    width: min(78%, 320px);
+  }
+
+  .pasta-topping {
+    width: 29px;
+    height: 29px;
+  }
+
+  .pasta-preview__details h2 {
+    font-size: 23px;
+  }
+
+  .pasta-size-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pasta-options-grid,
+  .pasta-sauce-grid,
+  .pasta-toppings-grid,
+  .pasta-extra-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pasta-section__header {
+    gap: 10px;
+  }
+
+  .pasta-select-all {
+    min-height: 34px;
+
+    padding: 0 11px;
+
+    border-radius: 9px;
+
+    font-size: 10px;
+  }
+
+  .pasta-checkout {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    padding: 22px;
+  }
+
+  .pasta-add-button,
+  .pasta-add-disabled-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .pasta-customer-section {
+    padding: 20px;
+
+    border-radius: 20px;
+  }
+
+  .pasta-customer-fields {
+    grid-template-columns: 1fr;
+
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pasta-customer-section {
+    padding: 17px;
+  }
+
+  .pasta-input-wrapper {
+    min-height: 53px;
+  }
+
+  .pasta-input-wrapper input {
+    height: 51px;
+
+    font-size: 13px;
+  }
+
+  .pasta-input-icon {
+    width: 44px;
+
+    flex-basis: 44px;
+  }
+
+  .pasta-spice-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pasta-bowl {
+    animation: none;
+  }
+
+  .pasta-topping,
+  .pasta-size,
+  .pasta-option,
+  .pasta-sauce,
+  .pasta-topping-card,
+  .pasta-extra,
+  .pasta-add-button {
+    transition: none;
+  }
+}

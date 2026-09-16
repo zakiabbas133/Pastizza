@@ -13,7 +13,6 @@
   --pizza-gold-dark: #a87519;
 
   margin: 0 auto;
-  padding: 70px 28px 100px;
   color: var(--pizza-text);
   background: var(--pizza-bg);
   border-radius: 32px;
@@ -23,12 +22,6 @@
    HEADER
 ======================================== */
 
-.pizza-builder__header {
-  max-width: 700px;
-  margin: 2rem auto 55px;
-  text-align: center;
-}
-
 .pizza-builder__eyebrow {
   display: inline-block;
   margin-bottom: 18px;
@@ -36,22 +29,6 @@
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 4px;
-}
-
-.pizza-builder__header h1 {
-  margin: 0 0 20px;
-  color: var(--pizza-text);
-  font-size: clamp(38px, 5vw, 68px);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -2px;
-}
-
-.pizza-builder__header p {
-  margin: 0;
-  color: var(--pizza-muted);
-  font-size: 17px;
-  line-height: 1.7;
 }
 
 /* ========================================
@@ -970,18 +947,6 @@
   .pizza-builder {
     padding: 45px 14px 65px;
     border-radius: 20px;
-  }
-
-  .pizza-builder__header {
-    margin-bottom: 35px;
-  }
-
-  .pizza-builder__header h1 {
-    letter-spacing: -1px;
-  }
-
-  .pizza-builder__header p {
-    font-size: 15px;
   }
 
   .pizza-section {

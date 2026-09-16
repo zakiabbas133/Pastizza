@@ -14,7 +14,7 @@ import { NotFound } from "./pages/NotFound/NotFound";
 import WebsiteLoader from "./components/WebsiteLoader/WebsiteLoader";
 import SocialFab from "./components/SocialMedia/SocialFab";
 import DealDetails from "./pages/Deal/DealDetails";
-import Firestorm from "./pages/Firestorm";
+import Firestorm from "./pages/Firestorm/Firestorm";
 
 export default function App() {
   return (
