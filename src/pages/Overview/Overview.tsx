@@ -27,7 +27,7 @@ export function Overview() {
 
   const deals = dealItems?.data ?? [];
 
-  const featured = menuItems.slice(0, 3);
+  const featured = menuItems.filter(x => x.featured).slice(0, 3);
 
   const categoryCards = cats.filter((c) => c.id !== "all" && c.image);
 
