@@ -133,7 +133,8 @@ const DealDetails = () => {
   const includedItems = deal.dealItems ?? [];
   const image = baseUrl + deal.image;
   const savings = deal.originalPrice ? deal.originalPrice - deal.price : 0;
-
+  console.log(image);
+  
   return (
     <div className="page">
       <div className="container">
@@ -148,7 +149,7 @@ const DealDetails = () => {
             transition={{ duration: 0.5 }}
           >
             <img
-              src={baseUrl + image}
+              src={image}
               alt={deal.title}
               onError={(event) => {
                 event.currentTarget.src = "/dummyfood3.jpg";

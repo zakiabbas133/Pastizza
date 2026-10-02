@@ -55,6 +55,8 @@ export function MenuItemDetail() {
   //   if (!selected || !item) return;
   //   addItem(item, selected, qty);
   // }
+  console.log(baseUrl + item.image);
+  
 
   return (
     <div className="page">

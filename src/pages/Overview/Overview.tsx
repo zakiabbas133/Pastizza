@@ -27,9 +27,12 @@ export function Overview() {
 
   const deals = dealItems?.data ?? [];
 
-  const featured = menuItems.filter(x => x.featured).slice(0, 3);
+  const featured = menuItems.filter((x) => x.featured).slice(0, 3);
 
-  const categoryCards = cats.filter((c) => c.id !== "all" && c.image);
+  const categoryCards = cats
+    .filter((c) => c.description !== "all" && c.image)
+    .sort((a, b) => a.displayOrder - b.displayOrder)
+    .splice(0, 3);
 
   return (
     <div className="page">

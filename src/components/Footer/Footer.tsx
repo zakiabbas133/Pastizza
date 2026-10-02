@@ -10,7 +10,6 @@ export function Footer() {
     useGetWebsiteSettingsQuery();
   const { data: cats = [], isLoading: categoriesLoading } =
     useGetCategoriesQuery();
-
   const { data: locationsData = [], isLoading: locationsLoading } =
     useGetLocationsQuery();
 
@@ -116,6 +115,8 @@ export function Footer() {
                 ))
               : cats
                   .filter((item) => item.description != "all")
+                  .sort((a, b) => a.displayOrder - b.displayOrder)
+                  .splice(0, 6)
                   .map((cat, index) => {
                     return (
                       <li key={index}>

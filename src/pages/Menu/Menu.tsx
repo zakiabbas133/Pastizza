@@ -77,60 +77,62 @@ export function Menu() {
         </div>
       </section>
 
-      <section className={styles.filters}>
-        <div className="container">
-          <div className={styles.searchWrap}>
-            <Search size={18} className={styles.searchIcon} aria-hidden />
-            <input
-              type="text"
-              placeholder="Search dishes…"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              aria-label="Search menu"
-              className={styles.search}
-            />
-            {query && (
-              <button
-                type="button"
-                className={styles.clear}
-                onClick={() => setQuery("")}
-                aria-label="Clear search"
-              >
-                <X size={16} />
-              </button>
-            )}
-          </div>
+      {categories.length != 0 && (
+        <section className={styles.filters}>
+          <div className="container">
+            <div className={styles.searchWrap}>
+              <Search size={18} className={styles.searchIcon} aria-hidden />
+              <input
+                type="text"
+                placeholder="Search dishes…"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                aria-label="Search menu"
+                className={styles.search}
+              />
+              {query && (
+                <button
+                  type="button"
+                  className={styles.clear}
+                  onClick={() => setQuery("")}
+                  aria-label="Clear search"
+                >
+                  <X size={16} />
+                </button>
+              )}
+            </div>
 
-          <div className={styles.tabs} role="tablist" aria-label="Categories">
-            {categoriesLoading
-              ? ["one", "two", "three", "four"].map((item) => (
-                  <span
-                    key={item}
-                    className={`${styles.tab} ${styles.categoryTabSkeleton}`}
-                    aria-hidden="true"
-                  />
-                ))
-              : [...(categories ?? [])]
-                  .sort((a, b) => a.displayOrder - b.displayOrder)
-                  .map((c) => (
-                    <button
-                      key={c.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={category === c.id}
-                      className={`${styles.tab} ${
-                        category === c.label.toLocaleLowerCase()
-                          ? styles.tabActive
-                          : ""
-                      }`}
-                      onClick={() => selectCategory(c.label.toLowerCase())}
-                    >
-                      {c.label}
-                    </button>
-                  ))}
+            <div className={styles.tabs} role="tablist" aria-label="Categories">
+              {categoriesLoading
+                ? ["one", "two", "three", "four"].map((item) => (
+                    <span
+                      key={item}
+                      className={`${styles.tab} ${styles.categoryTabSkeleton}`}
+                      aria-hidden="true"
+                    />
+                  ))
+                : [...(categories ?? [])]
+                    .sort((a, b) => a.displayOrder - b.displayOrder)
+                    .map((c) => (
+                      <button
+                        key={c.id}
+                        type="button"
+                        role="tab"
+                        aria-selected={category === c.id}
+                        className={`${styles.tab} ${
+                          category === c.label.toLocaleLowerCase()
+                            ? styles.tabActive
+                            : ""
+                        }`}
+                        onClick={() => selectCategory(c.label.toLowerCase())}
+                      >
+                        {c.label}
+                      </button>
+                    ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className={styles.results}>
         <div className="container">
@@ -269,94 +271,99 @@ export function Menu() {
               </button>
             </div>
           ) : (
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`${category}-${query}`}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
-              >
-                {pizzaItems.length > 0 && (
-                  <div className={styles.pizzaSection}>
-                    <h3 className={styles.groupTitle}>Pizza — size pricing</h3>
-                    <div className={styles.tableWrap}>
-                      <table className={styles.table}>
-                        <thead>
-                          <tr>
-                            <th>Item</th>
-                            <th>Small</th>
-                            <th>Medium</th>
-                            <th>Large</th>
-                            <th>XL</th>
-                            <th></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {pizzaItems.map((item) => {
-                            const prices = Object.fromEntries(
-                              item.variants.map((v) => [v.name, v.price]),
-                            );
+            <>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`${category}-${query}`}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  {pizzaItems.length > 0 && (
+                    <div className={styles.pizzaSection}>
+                      <h3 className={styles.groupTitle}>
+                        Pizza — size pricing
+                      </h3>
+                      <div className={styles.tableWrap}>
+                        <table className={styles.table}>
+                          <thead>
+                            <tr>
+                              <th>Item</th>
+                              <th>Small</th>
+                              <th>Medium</th>
+                              <th>Large</th>
+                              <th>XL</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {pizzaItems.map((item) => {
+                              const prices = Object.fromEntries(
+                                item.variants.map((v) => [v.name, v.price]),
+                              );
 
-                            return (
-                              <tr key={item.id}>
-                                <td>
-                                  <Link
-                                    to={`/menu/${item.id}`}
-                                    className={styles.itemCell}
-                                  >
-                                    <img
-                                      src={baseUrl + item.image}
-                                      alt=""
-                                      width={48}
-                                      height={48}
-                                      onError={(e) => {
-                                        e.currentTarget.src = "/dummyfood3.jpg";
-                                      }}
-                                    />
-                                    <div>
-                                      <strong>{item.name}</strong>
-                                      <span>
-                                        {item.description.slice(0, 60)}…
-                                      </span>
-                                    </div>
-                                  </Link>
-                                </td>
-                                <td>Rs. {prices["Small"] ?? "—"}</td>
-                                <td>Rs. {prices["Medium"] ?? "—"}</td>
-                                <td>Rs. {prices["Large"] ?? "—"}</td>
-                                <td>Rs. {prices["XL"] ?? "—"}</td>
-                                <td>
-                                  <Link
-                                    to={`/menu/${item.id}`}
-                                    className="btn btn-sm btn-primary"
-                                  >
-                                    View
-                                  </Link>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
+                              return (
+                                <tr key={item.id}>
+                                  <td>
+                                    <Link
+                                      to={`/menu/${item.id}`}
+                                      className={styles.itemCell}
+                                    >
+                                      <img
+                                        src={baseUrl + item.image}
+                                        alt=""
+                                        width={48}
+                                        height={48}
+                                        onError={(e) => {
+                                          e.currentTarget.src =
+                                            "/dummyfood3.jpg";
+                                        }}
+                                      />
+                                      <div>
+                                        <strong>{item.name}</strong>
+                                        <span>
+                                          {item.description.slice(0, 60)}…
+                                        </span>
+                                      </div>
+                                    </Link>
+                                  </td>
+                                  <td>Rs. {prices["Small"] ?? "—"}</td>
+                                  <td>Rs. {prices["Medium"] ?? "—"}</td>
+                                  <td>Rs. {prices["Large"] ?? "—"}</td>
+                                  <td>Rs. {prices["XL"] ?? "—"}</td>
+                                  <td>
+                                    <Link
+                                      to={`/menu/${item.id}`}
+                                      className="btn btn-sm btn-primary"
+                                    >
+                                      View
+                                    </Link>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                      <div className={styles.mobileCards}>
+                        {pizzaItems.map((item, i) => (
+                          <FoodCard key={item.id} item={item} index={i} />
+                        ))}
+                      </div>
                     </div>
-                    <div className={styles.mobileCards}>
-                      {pizzaItems.map((item, i) => (
+                  )}
+
+                  {otherItems.length > 0 && (
+                    <div className={styles.otherGrid}>
+                      {otherItems.map((item, i) => (
                         <FoodCard key={item.id} item={item} index={i} />
                       ))}
                     </div>
-                  </div>
-                )}
-
-                {otherItems.length > 0 && (
-                  <div className={styles.otherGrid}>
-                    {otherItems.map((item, i) => (
-                      <FoodCard key={item.id} item={item} index={i} />
-                    ))}
-                  </div>
-                )}
-              </motion.div>
-            </AnimatePresence>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </>
           )}
         </div>
       </section>
